@@ -47,6 +47,8 @@ public class Administrador extends javax.swing.JFrame {
         conectarBtn = new javax.swing.JButton();
         estadoLbl = new javax.swing.JLabel();
         statusLbl = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        connTypeCbx = new javax.swing.JComboBox<>();
         colaMqLbl = new javax.swing.JLabel();
         colaMqTxt = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -90,6 +92,15 @@ public class Administrador extends javax.swing.JFrame {
         statusLbl.setForeground(new java.awt.Color(255, 0, 0));
         statusLbl.setText("Desconectado");
 
+        jLabel1.setText("Tipo de Conexión");
+
+        connTypeCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLIENT", "SECURE" }));
+        connTypeCbx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connTypeCbxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -97,25 +108,30 @@ public class Administrador extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(gestorLbl)
-                            .addComponent(servidorLbl)
-                            .addComponent(puertoLbl)
-                            .addComponent(canalLbl))
-                        .addGap(61, 61, 61)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(gestorTxt)
-                            .addComponent(servidorTxt)
-                            .addComponent(puertoTxt)
-                            .addComponent(canalTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(estadoLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(statusLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(conectarBtn)))
+                        .addComponent(conectarBtn))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(gestorLbl)
+                                .addComponent(servidorLbl)
+                                .addComponent(puertoLbl)
+                                .addComponent(canalLbl))
+                            .addGap(61, 61, 61)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(gestorTxt)
+                                .addComponent(servidorTxt)
+                                .addComponent(puertoTxt)
+                                .addComponent(canalTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(connTypeCbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -137,7 +153,11 @@ public class Administrador extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(canalLbl)
                     .addComponent(canalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(connTypeCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(conectarBtn)
                     .addComponent(estadoLbl)
@@ -184,21 +204,21 @@ public class Administrador extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(colaMqLbl)
                             .addComponent(colaMqTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(156, 156, 156)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ponerMsgBtn)
-                            .addComponent(errorLbl))))
-                .addGap(65, 65, 65))
+                            .addComponent(errorLbl)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         pack();
@@ -208,7 +228,7 @@ public class Administrador extends javax.swing.JFrame {
         
         if ( conn == null )
         {
-            conn = new ExchangeConnectorMQ( gestorTxt.getText() , servidorTxt.getText() , puertoTxt.getText(), canalTxt.getText() );
+            conn = new ExchangeConnectorMQ( gestorTxt.getText() , servidorTxt.getText() , puertoTxt.getText(), canalTxt.getText(), connType );
         }
         
         try
@@ -220,6 +240,7 @@ public class Administrador extends javax.swing.JFrame {
                     statusLbl.setForeground(new java.awt.Color(0, 153, 0));
                     statusLbl.setText("Conectado");
                     conectarBtn.setText( "Desconectar" );
+                    mensajeTxa.setEnabled(true);
                 }
                 else
                 {
@@ -238,8 +259,12 @@ public class Administrador extends javax.swing.JFrame {
             }
         } catch (MQMMessageBrockerConnectionRefusedException ex) {
             Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
+            mensajeTxa.setText( ex.getCause().toString()+"\n"+ex );
+            mensajeTxa.setEnabled(false);
         } catch (MQMMessageBrockerUnexpectedException ex) {
             Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
+            mensajeTxa.setText( ex.getCause().toString()+"\n"+ex );
+            mensajeTxa.setEnabled(false);
         }
     }//GEN-LAST:event_conectarBtnActionPerformed
 
@@ -289,6 +314,10 @@ public class Administrador extends javax.swing.JFrame {
         
     }//GEN-LAST:event_ponerMsgBtnActionPerformed
 
+    private void connTypeCbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connTypeCbxActionPerformed
+        setConnType( connTypeCbx.getSelectedItem().toString() );
+    }//GEN-LAST:event_connTypeCbxActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -319,7 +348,10 @@ public class Administrador extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Administrador().setVisible(true);
+                Administrador admin = new Administrador();
+                admin.setConnType( admin.connTypeCbx.getSelectedItem().toString() );
+                admin.setVisible(true);
+                
             }
         });
     }
@@ -330,10 +362,12 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JLabel colaMqLbl;
     private javax.swing.JTextField colaMqTxt;
     private javax.swing.JButton conectarBtn;
+    private javax.swing.JComboBox<String> connTypeCbx;
     private javax.swing.JLabel errorLbl;
     private javax.swing.JLabel estadoLbl;
     private javax.swing.JLabel gestorLbl;
     private javax.swing.JTextField gestorTxt;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea mensajeTxa;
@@ -344,4 +378,16 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTextField servidorTxt;
     private javax.swing.JLabel statusLbl;
     // End of variables declaration//GEN-END:variables
+
+    private String connType;
+
+    public String getConnType() {
+        return connType;
+    }
+
+    public void setConnType(String connType) {
+        this.connType = connType;
+    }
+    
+
 }
