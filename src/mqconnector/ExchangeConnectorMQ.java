@@ -26,6 +26,7 @@ public class ExchangeConnectorMQ
     private final String qServer;
     private final String qPuerto;
     private final String qCanal;
+    private final String qConnType;
     
     private String qInName;
     private String qOutName;
@@ -34,7 +35,7 @@ public class ExchangeConnectorMQ
     private String qPassword;
     private int openOptions = MQC.MQOO_INPUT_AS_Q_DEF | MQC.MQOO_OUTPUT | MQC.MQOO_INQUIRE;
     
-    public ExchangeConnectorMQ( String qmanager, String qserver, String qpuerto, String qcanal )
+    public ExchangeConnectorMQ( String qmanager, String qserver, String qpuerto, String qcanal, String qconnType )
     {
 		super();
 		
@@ -42,6 +43,7 @@ public class ExchangeConnectorMQ
 		qServer = qserver;
                 qPuerto = qpuerto;
                 qCanal = qcanal;
+                qConnType = qconnType;
 		
     }
 
@@ -51,10 +53,8 @@ public class ExchangeConnectorMQ
 	MQQueue remoteQueue = null;
         System.err.println( qManager + " " + qServer + " " + qPuerto + " " + qCanal );
 	try
-        {
-            String conType = "CLIENT";
-            
-            if ( "SECURE".equals( conType ) )
+        {           
+            if ( "SECURE".equals( qConnType ) )
             {
                 System.err.println("No soportado todavía...");
             } 
