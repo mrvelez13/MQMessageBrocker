@@ -257,13 +257,16 @@ public class Administrador extends javax.swing.JFrame {
                     conectarBtn.setText( "Conectar" );
                 }
             }
-        } catch (MQMMessageBrockerConnectionRefusedException ex) {
+        } catch (MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException ex) {
             Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
-            mensajeTxa.setText( ex.getCause().toString()+"\n"+ex );
-            mensajeTxa.setEnabled(false);
-        } catch (MQMMessageBrockerUnexpectedException ex) {
-            Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
-            mensajeTxa.setText( ex.getCause().toString()+"\n"+ex );
+            StringBuilder sb = new StringBuilder(ex.toString());
+            for (StackTraceElement ste : ex.getStackTrace())
+            {
+                sb.append("\n\tat ");
+                sb.append(ste);
+            }
+            String trace = sb.toString();
+            mensajeTxa.setText( ex.getCause().toString()+"\n"+trace );
             mensajeTxa.setEnabled(false);
         }
     }//GEN-LAST:event_conectarBtnActionPerformed
