@@ -12,9 +12,6 @@ import com.ibm.mq.MQException;
 import com.ibm.mq.MQMessage;
 import com.ibm.mq.MQPutMessageOptions;
 import com.ibm.mq.MQQueue;
-import java.io.EOFException;
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  *
@@ -35,7 +32,7 @@ public class ExchangeConnectorMQ
     private String qPassword;
     private int openOptions = MQC.MQOO_INPUT_AS_Q_DEF | MQC.MQOO_OUTPUT | MQC.MQOO_INQUIRE;
     
-    public ExchangeConnectorMQ( String qmanager, String qserver, String qpuerto, String qcanal, String qconnType )
+    public ExchangeConnectorMQ( String qmanager, String qserver, String qpuerto, String qcanal, String qconnType, String qusuario )
     {
 		super();
 		
@@ -44,6 +41,7 @@ public class ExchangeConnectorMQ
                 qPuerto = qpuerto;
                 qCanal = qcanal;
                 qConnType = qconnType;
+                qUser = qusuario;
 		
     }
 
@@ -55,8 +53,8 @@ public class ExchangeConnectorMQ
 	try
         {           
             if ( "SECURE".equals( qConnType ) )
-            {
-                System.err.println("No soportado todavía...");
+            {                
+                throw new Exception( "Aún no se ha implementado la seguridad" );
             } 
             else
             {
@@ -64,7 +62,7 @@ public class ExchangeConnectorMQ
                 String port = qPuerto;
                 MQEnvironment.hostname = hostname;
                 MQEnvironment.port = Integer.parseInt(port);
-                MQEnvironment.userID = "";
+                MQEnvironment.userID = qUser;
                 MQEnvironment.password = "";
                 MQEnvironment.channel =  qCanal;
                 MQEnvironment.properties.put(MQC.TRANSPORT_PROPERTY, MQC.TRANSPORT_MQSERIES_CLIENT);
