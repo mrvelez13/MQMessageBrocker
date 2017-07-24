@@ -43,7 +43,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="963" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="1189" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -55,7 +55,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="477" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="726" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -92,11 +92,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="937" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jScrollPane1" alignment="1" pref="1163" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
@@ -151,7 +147,6 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jInternalFrame1" max="32767" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -168,38 +163,37 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="connConfJPanel" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="colaMqLbl" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="colaMqTxt" max="32767" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                                      <Component id="cargaMasivaChbx" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="cargaMasivaTxt" min="-2" pref="414" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
                                       <Component id="ponerMsgBtn" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="secureConfJPanel" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="secureConfJPanel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="connConfJPanel" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="ponerMsgBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="colaMqTxt" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="colaMqLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="secureConfJPanel" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="ponerMsgBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cargaMasivaTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cargaMasivaChbx" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="secureConfJPanel" min="-2" pref="196" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="connConfJPanel" alignment="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -220,25 +214,27 @@
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="connTypeLbl" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="connTypeCbx" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="gestorLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="servidorLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="puertoLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="canalLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="colaMqLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="colaMqTxt" max="32767" attributes="0"/>
                                               <Component id="servidorTxt" alignment="0" max="32767" attributes="0"/>
                                               <Component id="puertoTxt" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="canalTxt" alignment="0" pref="200" max="32767" attributes="0"/>
+                                              <Component id="canalTxt" alignment="0" pref="299" max="32767" attributes="0"/>
                                               <Component id="gestorTxt" alignment="0" max="32767" attributes="0"/>
                                           </Group>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="connTypeLbl" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="connTypeCbx" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -268,6 +264,11 @@
                                       <Component id="canalTxt" alignment="3" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="colaMqLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="colaMqTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="connTypeLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="connTypeCbx" alignment="3" max="32767" attributes="0"/>
@@ -300,22 +301,22 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="gestorTxt">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="PBCOLMQMGR"/>
+                            <Property name="text" type="java.lang.String" value="BCOLQMGR2"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="servidorTxt">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="127.0.0.8"/>
+                            <Property name="text" type="java.lang.String" value="10.4.33.23"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="puertoTxt">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="1414"/>
+                            <Property name="text" type="java.lang.String" value="1423"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="canalTxt">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="MUREX.SVRCONN"/>
+                            <Property name="text" type="java.lang.String" value="SYSTEM.DEF.SVRCONN"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="connTypeLbl">
@@ -339,6 +340,13 @@
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
                         </Component>
+                        <Component class="javax.swing.JLabel" name="colaMqLbl">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Cola MQ"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JTextField" name="colaMqTxt">
+                        </Component>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="secureConfJPanel">
@@ -350,9 +358,6 @@
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="Configuraci&#xf3;n de conexi&#xf3;n segura"/>
                       </Properties>
-                      <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Configuraci&#xf3;n de conexi&#xf3;n segura"/>
-                      </AccessibilityProperties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -386,17 +391,17 @@
                                           </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="cipherCbx" pref="440" max="32767" attributes="0"/>
+                                              <Component id="cipherCbx" pref="550" max="32767" attributes="0"/>
                                               <Component id="rutaKeyStoreTxt" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Group type="102" alignment="1" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Component id="errorLbl" max="32767" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="estadoLbl" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="estadoLbl" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="statusLbl" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="conectarBtn" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -428,14 +433,16 @@
                                       <Component id="rutaKeyStoreLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="rutaKeyStoreTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="conectarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="statusLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="estadoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="errorLbl" alignment="1" max="32767" attributes="0"/>
+                                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="conectarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="statusLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="estadoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="errorLbl" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -543,19 +550,22 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="javax.swing.JLabel" name="colaMqLbl">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Cola MQ"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JTextField" name="colaMqTxt">
-                    </Component>
                     <Component class="javax.swing.JButton" name="ponerMsgBtn">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Poner mensaje"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ponerMsgBtnActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JTextField" name="cargaMasivaTxt">
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="cargaMasivaChbx">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Carga Masiva"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cargaMasivaChbxActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
