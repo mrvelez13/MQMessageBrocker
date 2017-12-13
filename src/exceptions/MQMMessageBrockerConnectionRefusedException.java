@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mqconnector;
+package exceptions;
 
 /**
  *
  * @author jonathan.velez
  */
-public class MQMMessageBrockerUnexpectedException extends Exception
+public class MQMMessageBrockerConnectionRefusedException extends Exception 
 {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public MQMMessageBrockerUnexpectedException(String message, Exception cause) {
+	public MQMMessageBrockerConnectionRefusedException(String message, Exception cause) {
 		super(message,cause);
-        }    
+	}
+
 }

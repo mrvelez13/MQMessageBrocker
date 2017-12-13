@@ -39,11 +39,14 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="jPanel2">
+      <Properties>
+        <Property name="autoscrolls" type="boolean" value="true"/>
+      </Properties>
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="1189" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="1487" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -55,7 +58,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="726" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="765" max="32767" attributes="0"/>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -83,6 +86,9 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout"/>
           <SubComponents>
             <Container class="javax.swing.JPanel" name="jPanel1">
+              <Properties>
+                <Property name="autoscrolls" type="boolean" value="true"/>
+              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
                   <JSplitPaneConstraints position="top"/>
@@ -92,12 +98,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane1" alignment="1" pref="1163" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" alignment="1" pref="1461" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane1" pref="399" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="216" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -126,6 +132,9 @@
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel3">
+              <Properties>
+                <Property name="autoscrolls" type="boolean" value="true"/>
+              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JSplitPaneSupportLayout$JSplitPaneConstraintsDescription">
                   <JSplitPaneConstraints position="bottom"/>
@@ -138,14 +147,13 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jInternalFrame1" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="15" max="32767" attributes="0"/>
                           <Component id="jInternalFrame1" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -163,37 +171,56 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="connConfJPanel" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
+                              <EmptySpace pref="67" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                                      <Component id="cargaMasivaChbx" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="cargaMasivaTxt" min="-2" pref="414" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
-                                      <Component id="ponerMsgBtn" min="-2" max="-2" attributes="0"/>
+                                      <Component id="limpiarMsjBtn" max="32767" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="opcionesColasBtn" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="verLogBtn" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="secureConfJPanel" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Component id="cargaMasivaChbx" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="cargaMasivaTxt" min="-2" pref="414" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="ponerMsgBtn" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Component id="secureConfJPanel" max="32767" attributes="0"/>
+                                          <Component id="loadProgress" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace pref="18" max="32767" attributes="0"/>
+                          <Component id="connConfJPanel" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="ponerMsgBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="cargaMasivaTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="cargaMasivaChbx" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="ponerMsgBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="secureConfJPanel" min="-2" pref="196" max="-2" attributes="0"/>
+                              <Component id="secureConfJPanel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="loadProgress" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="limpiarMsjBtn" alignment="3" max="-2" attributes="0"/>
+                                  <Component id="opcionesColasBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="verLogBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
-                          <Component id="connConfJPanel" alignment="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                   </Layout>
@@ -212,140 +239,375 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="connTypeLbl" min="-2" max="-2" attributes="0"/>
+                                  <Component id="connConfJPanel1" max="32767" attributes="0"/>
+                                  <EmptySpace pref="26" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="connConfJPanel2" max="32767" attributes="0"/>
+                                      <Component id="connConfJPanel3" max="32767" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <Component id="estadoLbl" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="connTypeCbx" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="gestorLbl" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="servidorLbl" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="puertoLbl" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="canalLbl" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="colaMqLbl" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="colaMqTxt" max="32767" attributes="0"/>
-                                              <Component id="servidorTxt" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="puertoTxt" alignment="0" max="32767" attributes="0"/>
-                                              <Component id="canalTxt" alignment="0" pref="299" max="32767" attributes="0"/>
-                                              <Component id="gestorTxt" alignment="0" max="32767" attributes="0"/>
-                                          </Group>
+                                          <Component id="statusLbl" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="conectarBtn" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace pref="32" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                         <DimensionLayout dim="1">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="gestorLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="gestorTxt" alignment="3" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="connConfJPanel2" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="connConfJPanel3" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                          <Component id="statusLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="estadoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="conectarBtn" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="servidorLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="servidorTxt" alignment="3" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="puertoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="puertoTxt" alignment="3" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="canalLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="canalTxt" alignment="3" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="colaMqLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="colaMqTxt" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="connTypeLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="connTypeCbx" alignment="3" max="32767" attributes="0"/>
-                                  </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
+                              <Component id="connConfJPanel1" alignment="0" max="32767" attributes="0"/>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="gestorLbl">
+                        <Container class="javax.swing.JPanel" name="connConfJPanel1">
                           <Properties>
-                            <Property name="text" type="java.lang.String" value="Gestor"/>
-                            <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="servidorLbl">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Servidor"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="puertoLbl">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Puerto"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="canalLbl">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Canal"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="gestorTxt">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="BCOLQMGR2"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="servidorTxt">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="10.4.33.23"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="puertoTxt">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="1423"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="canalTxt">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="SYSTEM.DEF.SVRCONN"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="connTypeLbl">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Tipo de Conexi&#xf3;n"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JComboBox" name="connTypeCbx">
-                          <Properties>
-                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="2">
-                                <StringItem index="0" value="CLIENT"/>
-                                <StringItem index="1" value="SECURE"/>
-                              </StringArray>
+                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                                <TitledBorder/>
+                              </Border>
                             </Property>
+                            <Property name="toolTipText" type="java.lang.String" value=""/>
+                          </Properties>
+
+                          <Layout>
+                            <DimensionLayout dim="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="servidorLbl" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="puertoLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="canalLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="connTypeLbl" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="gestorLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="nombreConexionLbl" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="gestorTxt" pref="146" max="32767" attributes="0"/>
+                                                  <Component id="puertoTxt" max="32767" attributes="0"/>
+                                                  <Component id="servidorTxt" max="32767" attributes="0"/>
+                                                  <Component id="canalTxt" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="connTypeCbx" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="nombreConexionTxt" alignment="0" max="32767" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="guardarBtn" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace pref="16" max="32767" attributes="0"/>
+                                              <Component id="eliminarBtn" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace pref="16" max="32767" attributes="0"/>
+                                              <Component id="limpiarBtn" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                            </DimensionLayout>
+                            <DimensionLayout dim="1">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="nombreConexionTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="nombreConexionLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="gestorTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="gestorLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="servidorTxt" alignment="3" max="32767" attributes="0"/>
+                                          <Component id="servidorLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="puertoTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="puertoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace pref="23" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="canalTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="canalLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="connTypeCbx" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="connTypeLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace pref="23" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="guardarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="eliminarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="limpiarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                            </DimensionLayout>
+                          </Layout>
+                          <SubComponents>
+                            <Component class="javax.swing.JLabel" name="servidorLbl">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Servidor"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="puertoLbl">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Puerto"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="canalLbl">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Canal"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="connTypeLbl">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Tipo de Conexi&#xf3;n"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JTextField" name="gestorTxt">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="DCOLQMGRMIG01"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gestorTxtActionPerformed"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JTextField" name="servidorTxt">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="10.8.87.145"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JTextField" name="puertoTxt">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="1418"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="puertoTxtActionPerformed"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JTextField" name="canalTxt">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="CHANNEL.CLIENT"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JComboBox" name="connTypeCbx">
+                              <Properties>
+                                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                                  <StringArray count="2">
+                                    <StringItem index="0" value="CLIENT"/>
+                                    <StringItem index="1" value="SECURE"/>
+                                  </StringArray>
+                                </Property>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="connTypeCbxActionPerformed"/>
+                              </Events>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                              </AuxValues>
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="gestorLbl">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Gestor"/>
+                                <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JButton" name="guardarBtn">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Guardar"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="guardarBtnActionPerformed"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JButton" name="eliminarBtn">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Eliminar"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eliminarBtnActionPerformed"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JButton" name="limpiarBtn">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Limpiar"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="limpiarBtnActionPerformed"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JTextField" name="nombreConexionTxt">
+                            </Component>
+                            <Component class="javax.swing.JLabel" name="nombreConexionLbl">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Nombre Conexion"/>
+                              </Properties>
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                        <Container class="javax.swing.JPanel" name="connConfJPanel2">
+                          <Properties>
+                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                                <TitledBorder/>
+                              </Border>
+                            </Property>
+                            <Property name="toolTipText" type="java.lang.String" value=""/>
+                          </Properties>
+
+                          <Layout>
+                            <DimensionLayout dim="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="colaMqLbl" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="colaMqTxt" alignment="0" min="-2" pref="267" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                            </DimensionLayout>
+                            <DimensionLayout dim="1">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="colaMqLbl" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="colaMqTxt" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                            </DimensionLayout>
+                          </Layout>
+                          <SubComponents>
+                            <Component class="javax.swing.JLabel" name="colaMqLbl">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Cola MQ"/>
+                              </Properties>
+                            </Component>
+                            <Component class="javax.swing.JTextField" name="colaMqTxt">
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                        <Container class="javax.swing.JPanel" name="connConfJPanel3">
+                          <Properties>
+                            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                                <TitledBorder/>
+                              </Border>
+                            </Property>
+                            <Property name="toolTipText" type="java.lang.String" value=""/>
+                          </Properties>
+
+                          <Layout>
+                            <DimensionLayout dim="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="connectiosCbx" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="usePreConfigChbx" alignment="1" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="editarBtn" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                            </DimensionLayout>
+                            <DimensionLayout dim="1">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="usePreConfigChbx" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="connectiosCbx" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="editarBtn" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                            </DimensionLayout>
+                          </Layout>
+                          <SubComponents>
+                            <Component class="javax.swing.JCheckBox" name="usePreConfigChbx">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Utilizar conexiones preestablecitas"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usePreConfigChbxActionPerformed"/>
+                              </Events>
+                            </Component>
+                            <Component class="javax.swing.JComboBox" name="connectiosCbx">
+                              <Events>
+                                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="itemStateChanged"/>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="connectiosCbxActionPerformed"/>
+                              </Events>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="Administrador_connectiosCbx"/>
+                                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Connection&gt;"/>
+                              </AuxValues>
+                            </Component>
+                            <Component class="javax.swing.JButton" name="editarBtn">
+                              <Properties>
+                                <Property name="text" type="java.lang.String" value="Editar"/>
+                              </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editarBtnActionPerformed"/>
+                              </Events>
+                            </Component>
+                          </SubComponents>
+                        </Container>
+                        <Component class="javax.swing.JLabel" name="estadoLbl">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Estado:"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="statusLbl">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                              <Font name="sansserif" size="12" style="1"/>
+                            </Property>
+                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                              <Color blue="0" green="0" red="ff" type="rgb"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="Desconectado"/>
+                          </Properties>
+                        </Component>
+                        <Component class="javax.swing.JButton" name="conectarBtn">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="Conectar"/>
                           </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="connTypeCbxActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="conectarBtnActionPerformed"/>
                           </Events>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-                          </AuxValues>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="colaMqLbl">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Cola MQ"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JTextField" name="colaMqTxt">
                         </Component>
                       </SubComponents>
                     </Container>
@@ -357,6 +619,7 @@
                           </Border>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value="Configuraci&#xf3;n de conexi&#xf3;n segura"/>
+                        <Property name="autoscrolls" type="boolean" value="true"/>
                       </Properties>
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
@@ -367,14 +630,14 @@
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="contrasenaLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="usuarioLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="usuarioTxt" max="32767" attributes="0"/>
                                               <Component id="contrasenaTxt" max="32767" attributes="0"/>
@@ -389,23 +652,14 @@
                                               <Component id="rutaKeyStoreLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="cipherLbl" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="cipherCbx" pref="550" max="32767" attributes="0"/>
+                                              <Component id="cipherCbx" max="32767" attributes="0"/>
                                               <Component id="rutaKeyStoreTxt" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="errorLbl" max="32767" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="estadoLbl" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="statusLbl" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="conectarBtn" min="-2" max="-2" attributes="0"/>
-                                      </Group>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -416,45 +670,29 @@
                                       <Component id="usuarioLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="usuarioTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="contrasenaLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="contrasenaTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Component id="reqContrasenaChbx" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="cipherCbx" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="cipherLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="rutaKeyStoreLbl" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="rutaKeyStoreTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="conectarBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="statusLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="estadoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="errorLbl" alignment="1" min="-2" pref="26" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="errorLbl">
-                          <AccessibilityProperties>
-                            <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                              <ComponentRef name="jInternalFrame1"/>
-                            </Property>
-                          </AccessibilityProperties>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="usuarioLbl">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Usuario"/>
@@ -523,30 +761,9 @@
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="rutaKeyStoreTxt">
-                        </Component>
-                        <Component class="javax.swing.JButton" name="conectarBtn">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Conectar"/>
-                          </Properties>
                           <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="conectarBtnActionPerformed"/>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rutaKeyStoreTxtActionPerformed"/>
                           </Events>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="statusLbl">
-                          <Properties>
-                            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                              <Font name="sansserif" size="12" style="1"/>
-                            </Property>
-                            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="0" green="0" red="ff" type="rgb"/>
-                            </Property>
-                            <Property name="text" type="java.lang.String" value="Desconectado"/>
-                          </Properties>
-                        </Component>
-                        <Component class="javax.swing.JLabel" name="estadoLbl">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="Estado:"/>
-                          </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -567,6 +784,29 @@
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cargaMasivaChbxActionPerformed"/>
                       </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="limpiarMsjBtn">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Limpiar &#xc1;rea de Mensaje"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="limpiarMsjBtnActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="opcionesColasBtn">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Ver Opciones"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="verLogBtn">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Monitorear cola"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verLogBtnActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JProgressBar" name="loadProgress">
                     </Component>
                   </SubComponents>
                 </Container>

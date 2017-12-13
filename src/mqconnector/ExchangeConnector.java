@@ -5,6 +5,9 @@
  */
 package mqconnector;
 
+import exceptions.MQMMessageBrockerUnexpectedException;
+import exceptions.MQMMessageBrockerConnectionRefusedException;
+
 /**
  *
  * @author jonathan.velez
@@ -17,8 +20,7 @@ public abstract class ExchangeConnector
 		//Logger log4j = Logger.getLogger("taxmodule");
 		
 		if (processor == null) {
-			//log4j.fatal("El objeto procesador es nulo");
-			//log4j.fatal("No se puede procesar el mensaje");
+			
 			new NullPointerException("El procesador es nulo");			
 		}
 			

@@ -5,18 +5,31 @@
  */
 package mqmessagebrocker;
 
+import com.ibm.mq.MQException;
+import com.ibm.mq.MQMessage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import mqconnector.ExchangeConnectorMQ;
-import mqconnector.MQMMessageBrockerConnectionRefusedException;
-import mqconnector.MQMMessageBrockerUnexpectedException;
+import exceptions.MQMMessageBrockerConnectionRefusedException;
+import exceptions.MQMMessageBrockerUnexpectedException;
+import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.xml.sax.SAXException;
+import utilities.ConnectionReader;
 
 /**
  *
@@ -25,16 +38,27 @@ import mqconnector.MQMMessageBrockerUnexpectedException;
 public class Administrador extends javax.swing.JFrame {
     
     ExchangeConnectorMQ conn;
+    ConnectionReader connectionReader;
 
     /**
      * Creates new form Administrador
      */
-    public Administrador() {
+    public Administrador()
+    {
         initComponents();
-        mensajeTxa.setEditable(false );
+        loadConnectionData();
+        connectionListPopulation();
+        mensajeTxa.setEditable( false );
+        mensajeTxa.setBackground( Color.GRAY );
         cipherCbx.setEnabled( false );
         rutaKeyStoreTxt.setEnabled( false );
         cargaMasivaTxt.setEnabled( false );
+        editarBtn.setEnabled( false );
+        connectiosCbx.setEnabled( false );
+        reqContrasenaChbx.setSelected( true );
+        contrasenaTxt.setEnabled( false );
+        opcionesColasBtn.setVisible( false );
+        loadProgress.setVisible( false );
     }
 
     /**
@@ -44,7 +68,8 @@ public class Administrador extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel2 = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
@@ -54,20 +79,33 @@ public class Administrador extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         connConfJPanel = new javax.swing.JPanel();
-        gestorLbl = new javax.swing.JLabel();
+        connConfJPanel1 = new javax.swing.JPanel();
         servidorLbl = new javax.swing.JLabel();
         puertoLbl = new javax.swing.JLabel();
         canalLbl = new javax.swing.JLabel();
+        connTypeLbl = new javax.swing.JLabel();
         gestorTxt = new javax.swing.JTextField();
         servidorTxt = new javax.swing.JTextField();
         puertoTxt = new javax.swing.JTextField();
         canalTxt = new javax.swing.JTextField();
-        connTypeLbl = new javax.swing.JLabel();
         connTypeCbx = new javax.swing.JComboBox<>();
+        gestorLbl = new javax.swing.JLabel();
+        guardarBtn = new javax.swing.JButton();
+        eliminarBtn = new javax.swing.JButton();
+        limpiarBtn = new javax.swing.JButton();
+        nombreConexionTxt = new javax.swing.JTextField();
+        nombreConexionLbl = new javax.swing.JLabel();
+        connConfJPanel2 = new javax.swing.JPanel();
         colaMqLbl = new javax.swing.JLabel();
         colaMqTxt = new javax.swing.JTextField();
+        connConfJPanel3 = new javax.swing.JPanel();
+        usePreConfigChbx = new javax.swing.JCheckBox();
+        connectiosCbx = new javax.swing.JComboBox<>();
+        editarBtn = new javax.swing.JButton();
+        estadoLbl = new javax.swing.JLabel();
+        statusLbl = new javax.swing.JLabel();
+        conectarBtn = new javax.swing.JButton();
         javax.swing.JPanel secureConfJPanel = new javax.swing.JPanel();
-        errorLbl = new javax.swing.JLabel();
         usuarioLbl = new javax.swing.JLabel();
         usuarioTxt = new javax.swing.JTextField();
         reqContrasenaChbx = new javax.swing.JCheckBox();
@@ -77,17 +115,20 @@ public class Administrador extends javax.swing.JFrame {
         cipherLbl = new javax.swing.JLabel();
         rutaKeyStoreLbl = new javax.swing.JLabel();
         rutaKeyStoreTxt = new javax.swing.JTextField();
-        conectarBtn = new javax.swing.JButton();
-        statusLbl = new javax.swing.JLabel();
-        estadoLbl = new javax.swing.JLabel();
         ponerMsgBtn = new javax.swing.JButton();
         cargaMasivaTxt = new javax.swing.JTextField();
         cargaMasivaChbx = new javax.swing.JCheckBox();
+        limpiarMsjBtn = new javax.swing.JButton();
+        opcionesColasBtn = new javax.swing.JButton();
+        verLogBtn = new javax.swing.JButton();
+        loadProgress = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IBM MQ Message Manager");
         setLocation(new java.awt.Point(0, 0));
         setLocationByPlatform(true);
+
+        jPanel2.setAutoscrolls(true);
 
         jSplitPane1.setDividerLocation(400);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
@@ -98,6 +139,8 @@ public class Administrador extends javax.swing.JFrame {
         jSplitPane1.setFocusTraversalPolicyProvider(true);
         jSplitPane1.setInheritsPopupMenu(true);
         jSplitPane1.setOneTouchExpandable(true);
+
+        jPanel1.setAutoscrolls(true);
 
         jScrollPane1.setAutoscrolls(true);
 
@@ -111,14 +154,16 @@ public class Administrador extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1163, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1461, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
         );
 
         jSplitPane1.setTopComponent(jPanel1);
+
+        jPanel3.setAutoscrolls(true);
 
         jInternalFrame1.setAutoscrolls(true);
         jInternalFrame1.setVisible(true);
@@ -126,8 +171,8 @@ public class Administrador extends javax.swing.JFrame {
         connConfJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de la conexión"));
         connConfJPanel.setToolTipText("Configuración de la conexión");
 
-        gestorLbl.setText("Gestor");
-        gestorLbl.setVerifyInputWhenFocusTarget(false);
+        connConfJPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        connConfJPanel1.setToolTipText("");
 
         servidorLbl.setText("Servidor");
 
@@ -135,88 +180,285 @@ public class Administrador extends javax.swing.JFrame {
 
         canalLbl.setText("Canal");
 
-        gestorTxt.setText("BCOLQMGR2");
-
-        servidorTxt.setText("10.4.33.23");
-
-        puertoTxt.setText("1423");
-
-        canalTxt.setText("SYSTEM.DEF.SVRCONN");
-
         connTypeLbl.setText("Tipo de Conexión");
 
+        gestorTxt.setText("DCOLQMGRMIG01");
+        gestorTxt.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                gestorTxtActionPerformed(evt);
+            }
+        });
+
+        servidorTxt.setText("10.8.87.145");
+
+        puertoTxt.setText("1418");
+        puertoTxt.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                puertoTxtActionPerformed(evt);
+            }
+        });
+
+        canalTxt.setText("CHANNEL.CLIENT");
+
         connTypeCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLIENT", "SECURE" }));
-        connTypeCbx.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        connTypeCbx.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 connTypeCbxActionPerformed(evt);
             }
         });
 
+        gestorLbl.setText("Gestor");
+        gestorLbl.setVerifyInputWhenFocusTarget(false);
+
+        guardarBtn.setText("Guardar");
+        guardarBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                guardarBtnActionPerformed(evt);
+            }
+        });
+
+        eliminarBtn.setText("Eliminar");
+        eliminarBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                eliminarBtnActionPerformed(evt);
+            }
+        });
+
+        limpiarBtn.setText("Limpiar");
+        limpiarBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                limpiarBtnActionPerformed(evt);
+            }
+        });
+
+        nombreConexionLbl.setText("Nombre Conexion");
+
+        javax.swing.GroupLayout connConfJPanel1Layout = new javax.swing.GroupLayout(connConfJPanel1);
+        connConfJPanel1.setLayout(connConfJPanel1Layout);
+        connConfJPanel1Layout.setHorizontalGroup(
+            connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connConfJPanel1Layout.createSequentialGroup()
+                .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(connConfJPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(servidorLbl)
+                            .addComponent(puertoLbl)
+                            .addComponent(canalLbl)
+                            .addComponent(connTypeLbl)
+                            .addComponent(gestorLbl)
+                            .addComponent(nombreConexionLbl))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(gestorTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(puertoTxt)
+                            .addComponent(servidorTxt)
+                            .addComponent(canalTxt)
+                            .addComponent(connTypeCbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nombreConexionTxt)))
+                    .addGroup(connConfJPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(guardarBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addComponent(eliminarBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addComponent(limpiarBtn)))
+                .addContainerGap())
+        );
+        connConfJPanel1Layout.setVerticalGroup(
+            connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, connConfJPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nombreConexionTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreConexionLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(gestorTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gestorLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(servidorTxt)
+                    .addComponent(servidorLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(puertoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(puertoLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(canalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(canalLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(connTypeCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(connTypeLbl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(guardarBtn)
+                    .addComponent(eliminarBtn)
+                    .addComponent(limpiarBtn))
+                .addContainerGap())
+        );
+
+        connConfJPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        connConfJPanel2.setToolTipText("");
+
         colaMqLbl.setText("Cola MQ");
+
+        javax.swing.GroupLayout connConfJPanel2Layout = new javax.swing.GroupLayout(connConfJPanel2);
+        connConfJPanel2.setLayout(connConfJPanel2Layout);
+        connConfJPanel2Layout.setHorizontalGroup(
+            connConfJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connConfJPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(connConfJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(colaMqLbl)
+                    .addComponent(colaMqTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        connConfJPanel2Layout.setVerticalGroup(
+            connConfJPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connConfJPanel2Layout.createSequentialGroup()
+                .addComponent(colaMqLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(colaMqTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        connConfJPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        connConfJPanel3.setToolTipText("");
+
+        usePreConfigChbx.setText("Utilizar conexiones preestablecitas");
+        usePreConfigChbx.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                usePreConfigChbxActionPerformed(evt);
+            }
+        });
+
+        connectiosCbx.addItemListener(new java.awt.event.ItemListener()
+        {
+            public void itemStateChanged(java.awt.event.ItemEvent evt)
+            {
+                Administrador.this.itemStateChanged(evt);
+            }
+        });
+        connectiosCbx.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                connectiosCbxActionPerformed(evt);
+            }
+        });
+
+        editarBtn.setText("Editar");
+        editarBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                editarBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout connConfJPanel3Layout = new javax.swing.GroupLayout(connConfJPanel3);
+        connConfJPanel3.setLayout(connConfJPanel3Layout);
+        connConfJPanel3Layout.setHorizontalGroup(
+            connConfJPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connConfJPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(connConfJPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(connectiosCbx, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(usePreConfigChbx, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(connConfJPanel3Layout.createSequentialGroup()
+                        .addComponent(editarBtn)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        connConfJPanel3Layout.setVerticalGroup(
+            connConfJPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(connConfJPanel3Layout.createSequentialGroup()
+                .addComponent(usePreConfigChbx)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(connectiosCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(editarBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        estadoLbl.setText("Estado:");
+
+        statusLbl.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
+        statusLbl.setForeground(new java.awt.Color(255, 0, 0));
+        statusLbl.setText("Desconectado");
+
+        conectarBtn.setText("Conectar");
+        conectarBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                conectarBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout connConfJPanelLayout = new javax.swing.GroupLayout(connConfJPanel);
         connConfJPanel.setLayout(connConfJPanelLayout);
         connConfJPanelLayout.setHorizontalGroup(
             connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connConfJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(connConfJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(connConfJPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(connConfJPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(connConfJPanelLayout.createSequentialGroup()
-                        .addComponent(connTypeLbl)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(estadoLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(connTypeCbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(connConfJPanelLayout.createSequentialGroup()
-                        .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(gestorLbl)
-                            .addComponent(servidorLbl)
-                            .addComponent(puertoLbl)
-                            .addComponent(canalLbl)
-                            .addComponent(colaMqLbl))
-                        .addGap(61, 61, 61)
-                        .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(colaMqTxt)
-                            .addComponent(servidorTxt)
-                            .addComponent(puertoTxt)
-                            .addComponent(canalTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
-                            .addComponent(gestorTxt))))
-                .addContainerGap())
+                        .addComponent(statusLbl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(conectarBtn)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         connConfJPanelLayout.setVerticalGroup(
             connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connConfJPanelLayout.createSequentialGroup()
-                .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(gestorLbl)
-                    .addComponent(gestorTxt))
-                .addGap(14, 14, 14)
-                .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(servidorLbl)
-                    .addComponent(servidorTxt))
-                .addGap(17, 17, 17)
-                .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(puertoLbl)
-                    .addComponent(puertoTxt))
-                .addGap(18, 18, 18)
-                .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(canalLbl)
-                    .addComponent(canalTxt))
-                .addGap(18, 18, 18)
-                .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(colaMqLbl)
-                    .addComponent(colaMqTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(connTypeLbl)
-                    .addComponent(connTypeCbx)))
+                .addComponent(connConfJPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(connConfJPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(statusLbl)
+                        .addComponent(estadoLbl))
+                    .addComponent(conectarBtn))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(connConfJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         secureConfJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de conexión segura"));
         secureConfJPanel.setToolTipText("Configuración de conexión segura");
+        secureConfJPanel.setAutoscrolls(true);
 
         usuarioLbl.setText("Usuario");
 
         reqContrasenaChbx.setText("No requiere contraseña");
-        reqContrasenaChbx.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        reqContrasenaChbx.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 reqContrasenaChbxActionPerformed(evt);
             }
         });
@@ -229,31 +471,26 @@ public class Administrador extends javax.swing.JFrame {
 
         rutaKeyStoreLbl.setText("Ruta keystore");
 
-        conectarBtn.setText("Conectar");
-        conectarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                conectarBtnActionPerformed(evt);
+        rutaKeyStoreTxt.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                rutaKeyStoreTxtActionPerformed(evt);
             }
         });
-
-        statusLbl.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
-        statusLbl.setForeground(new java.awt.Color(255, 0, 0));
-        statusLbl.setText("Desconectado");
-
-        estadoLbl.setText("Estado:");
 
         javax.swing.GroupLayout secureConfJPanelLayout = new javax.swing.GroupLayout(secureConfJPanel);
         secureConfJPanel.setLayout(secureConfJPanelLayout);
         secureConfJPanelLayout.setHorizontalGroup(
             secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(secureConfJPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(secureConfJPanelLayout.createSequentialGroup()
                         .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(contrasenaLbl)
                             .addComponent(usuarioLbl))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(usuarioTxt)
                             .addComponent(contrasenaTxt)))
@@ -264,19 +501,11 @@ public class Administrador extends javax.swing.JFrame {
                         .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rutaKeyStoreLbl)
                             .addComponent(cipherLbl))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cipherCbx, 0, 550, Short.MAX_VALUE)
-                            .addComponent(rutaKeyStoreTxt)))
-                    .addGroup(secureConfJPanelLayout.createSequentialGroup()
-                        .addComponent(errorLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(estadoLbl)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(statusLbl)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(conectarBtn)))
-                .addContainerGap())
+                            .addComponent(cipherCbx, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(rutaKeyStoreTxt))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         secureConfJPanelLayout.setVerticalGroup(
             secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,43 +513,58 @@ public class Administrador extends javax.swing.JFrame {
                 .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usuarioLbl)
                     .addComponent(usuarioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(contrasenaLbl)
                     .addComponent(contrasenaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(reqContrasenaChbx)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cipherCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cipherLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rutaKeyStoreLbl)
                     .addComponent(rutaKeyStoreTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(secureConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(conectarBtn)
-                        .addComponent(statusLbl)
-                        .addComponent(estadoLbl))
-                    .addComponent(errorLbl, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        errorLbl.getAccessibleContext().setAccessibleParent(jInternalFrame1);
-
         ponerMsgBtn.setText("Poner mensaje");
-        ponerMsgBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        ponerMsgBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 ponerMsgBtnActionPerformed(evt);
             }
         });
 
         cargaMasivaChbx.setText("Carga Masiva");
-        cargaMasivaChbx.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        cargaMasivaChbx.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 cargaMasivaChbxActionPerformed(evt);
+            }
+        });
+
+        limpiarMsjBtn.setText("Limpiar Área de Mensaje");
+        limpiarMsjBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                limpiarMsjBtnActionPerformed(evt);
+            }
+        });
+
+        opcionesColasBtn.setText("Ver Opciones");
+
+        verLogBtn.setText("Monitorear cola");
+        verLogBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                verLogBtnActionPerformed(evt);
             }
         });
 
@@ -330,30 +574,46 @@ public class Administrador extends javax.swing.JFrame {
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addComponent(connConfJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(cargaMasivaChbx)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cargaMasivaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ponerMsgBtn)
-                        .addContainerGap())
+                        .addComponent(limpiarMsjBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(opcionesColasBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(verLogBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(secureConfJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                                .addComponent(cargaMasivaChbx)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cargaMasivaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ponerMsgBtn))
+                            .addComponent(secureConfJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(loadProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 60, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jInternalFrame1Layout.setVerticalGroup(
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jInternalFrame1Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ponerMsgBtn)
-                    .addComponent(cargaMasivaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cargaMasivaChbx))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(secureConfJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(connConfJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cargaMasivaTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cargaMasivaChbx)
+                    .addComponent(ponerMsgBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(secureConfJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(loadProgress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(limpiarMsjBtn)
+                    .addComponent(opcionesColasBtn)
+                    .addComponent(verLogBtn))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -362,13 +622,12 @@ public class Administrador extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jInternalFrame1)
-                .addContainerGap())
+                .addComponent(jInternalFrame1))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addComponent(jInternalFrame1))
         );
 
@@ -378,7 +637,7 @@ public class Administrador extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1189, Short.MAX_VALUE)
+            .addGap(0, 1487, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
@@ -387,7 +646,7 @@ public class Administrador extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 726, Short.MAX_VALUE)
+            .addGap(0, 765, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
@@ -413,18 +672,18 @@ public class Administrador extends javax.swing.JFrame {
         
         if( mensajeTxa.getText().equals( "" ) && cargaMasivaChbx.isSelected() == false )
         {
-            errorLbl.setText( "El área del mensaje está vacía." );
+            JOptionPane.showMessageDialog(this, "El área de mensaje está vacía.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         else if ( cargaMasivaChbx.isSelected() == true && cargaMasivaTxt.getText().equals( "" ) )
         {
-            errorLbl.setText( "Debe indicar la ruta de archivos de carga masiva." );
+            JOptionPane.showMessageDialog(this, "Debe indicar la ruta de archivos de carga masiva.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }     
 
         if ( colaMqTxt.getText().equals( "" ) )
         {
-            errorLbl.setText( "El nombre de la Cola MQ está vacío." );
+            JOptionPane.showMessageDialog(this, "El nombre de la Cola MQ está vacío.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -462,7 +721,7 @@ public class Administrador extends javax.swing.JFrame {
                                 try 
                                 {
                                     conn.sendMxML( content, colaMqTxt.getText() );
-                                    errorLbl.setText("Mensaje puesto con éxito.");
+                                    JOptionPane.showMessageDialog(this, "Mensaje puesto con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);                                    
                                 }
                                 catch (MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException ex)
                                 {   
@@ -473,9 +732,9 @@ public class Administrador extends javax.swing.JFrame {
                                         sb.append("\n\tat ");
                                      sb.append(ste);
                                     }
-                                    String trace = sb.toString();
-                                    mensajeTxa.setText( ex.getCause().toString()+"\n"+trace );
-                                    mensajeTxa.setEditable(false);
+                                    String trace = sb.toString();                                   
+                                               
+                                    JOptionPane.showMessageDialog(this, trace, ex.getCause().toString(), JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         }
@@ -485,7 +744,7 @@ public class Administrador extends javax.swing.JFrame {
                         try 
                         {
                             conn.sendMxML( mensajeTxa.getText(), colaMqTxt.getText() );
-                            errorLbl.setText("Mensaje puesto con éxito.");
+                            JOptionPane.showMessageDialog(this, "Mensaje puesto con éxito.", "Información", JOptionPane.INFORMATION_MESSAGE);                                    
                         }
                         catch (MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException ex)
                         {   
@@ -497,14 +756,14 @@ public class Administrador extends javax.swing.JFrame {
                              sb.append(ste);
                             }
                             String trace = sb.toString();
-                            mensajeTxa.setText( ex.getCause().toString()+"\n"+trace );
-                            mensajeTxa.setEditable(false);
+                            
+                            JOptionPane.showMessageDialog(this, trace, ex.getCause().toString(), JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
                 else
                 {
-                    errorLbl.setText( "El gestor está desconectado." );
+                    JOptionPane.showMessageDialog(this, "El gestor está desconectado.", "Error", JOptionPane.WARNING_MESSAGE);                                    
                     return;
                 }
             }
@@ -518,8 +777,8 @@ public class Administrador extends javax.swing.JFrame {
                     sb.append(ste);
                 }
                 String trace = sb.toString();
-                mensajeTxa.setText( ex.getCause().toString()+"\n"+trace );
-                mensajeTxa.setEditable(false);
+                
+                JOptionPane.showMessageDialog(this, trace, ex.getCause().toString(), JOptionPane.ERROR_MESSAGE);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -528,15 +787,27 @@ public class Administrador extends javax.swing.JFrame {
         }
         else
         {
-            errorLbl.setText( "El gestor está desconectado." );
+            JOptionPane.showMessageDialog(this, "El gestor está desconectado.", "Error", JOptionPane.WARNING_MESSAGE);                                    
             return;
         }
     }//GEN-LAST:event_ponerMsgBtnActionPerformed
 
+    
+    
     private void conectarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectarBtnActionPerformed
-
-        conn = new ExchangeConnectorMQ( gestorTxt.getText() , servidorTxt.getText() , puertoTxt.getText(), canalTxt.getText(), connType, usuarioTxt.getText() );
-
+        
+        Connection connection = new Connection();
+        
+        connection.setMqConnectionType( connTypeCbx.getSelectedItem().toString() );
+        connection.setMqHost( servidorTxt.getText() );
+        connection.setMqPort( puertoTxt.getText() );
+        connection.setMqChannel( canalTxt.getText() );
+        connection.setMqManager( gestorTxt.getText() );
+        connection.setMqManagerUser( usuarioTxt.getText() );
+        connection.setMqManagerPassword( contrasenaTxt.getText() );
+        
+        conn = new ExchangeConnectorMQ( connection );
+        
         try
         {
             if( conectarBtn.getText().equals( "Conectar" ) )
@@ -546,13 +817,16 @@ public class Administrador extends javax.swing.JFrame {
                     statusLbl.setForeground(new java.awt.Color(0, 153, 0));
                     statusLbl.setText("Conectado");
                     conectarBtn.setText( "Desconectar" );
-                    mensajeTxa.setText( "" );
                     mensajeTxa.setEditable(true);
+                    mensajeTxa.setBackground( Color.WHITE );
                 }
                 else
                 {
                     statusLbl.setForeground(new java.awt.Color(255, 0, 0));
                     statusLbl.setText("Desconectado");
+                    mensajeTxa.setEditable( false );
+                    mensajeTxa.setBackground( Color.WHITE );
+                    mensajeTxa.repaint();
                 }
             }
             else
@@ -562,9 +836,14 @@ public class Administrador extends javax.swing.JFrame {
                     statusLbl.setForeground(new java.awt.Color(255, 0, 0));
                     statusLbl.setText("Desconectado");
                     conectarBtn.setText( "Conectar" );
+                    mensajeTxa.setEditable( false );
+                    mensajeTxa.setBackground( Color.GRAY );
+                    mensajeTxa.repaint();
                 }
-            }
-        } catch (MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException ex) {
+            }            
+        }
+        catch (MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException ex)
+        {
             Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
             StringBuilder sb = new StringBuilder(ex.toString());
             for (StackTraceElement ste : ex.getStackTrace())
@@ -573,9 +852,71 @@ public class Administrador extends javax.swing.JFrame {
                 sb.append(ste);
             }
             String trace = sb.toString();
-            mensajeTxa.setText( ex.getCause().toString()+"\n"+trace );
-            mensajeTxa.setEditable(false);
+//            mensajeTxa.setText( ex.getCause().toString()+"\n"+trace );
+//            mensajeTxa.setEditable(false);  
+            statusLbl.setForeground(new java.awt.Color(255, 0, 0));
+            statusLbl.setText("Desconectado");
+            conectarBtn.setText( "Conectar" );
+            JOptionPane.showMessageDialog(conectarBtn, trace, ex.getCause().toString(), JOptionPane.ERROR_MESSAGE);
         }
+        
+        Timer timer = new Timer( 5000, new ActionListener()
+        {
+            public void actionPerformed( java.awt.event.ActionEvent e )
+            {
+                try
+                {
+                    int contador = 0;
+                    
+                    contador = contador + 1;
+                        if( conn.status() )
+                        {
+//                            JOptionPane.showMessageDialog( jPanel2 , "Parece conectado " + contador, "Parece conectado", JOptionPane.ERROR_MESSAGE);
+//                            statusLbl.setForeground(new java.awt.Color(0, 153, 0));
+//                            statusLbl.setText("Conectado");
+//                            conectarBtn.setText( "Desconectar" );
+//                            mensajeTxa.setText( "" );
+//                            mensajeTxa.setEditable(true);
+                        }
+                        else
+                        {
+                            statusLbl.setForeground(new java.awt.Color(255, 0, 0));
+                            statusLbl.setText("Desconectado");
+                            conectarBtn.setText( "Conectar" );
+                            mensajeTxa.setEditable( false );
+                            mensajeTxa.setBackground( Color.GRAY );
+                            mensajeTxa.repaint();
+                        }
+                    
+//                        if ( !conn.disconnect() );
+//                        {
+//                            statusLbl.setForeground(new java.awt.Color(255, 0, 0));
+//                            statusLbl.setText("Desconectado");
+//                            conectarBtn.setText( "Conectar" );
+//                        }
+                                
+                }
+                catch (MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException ex)
+                {
+                    Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
+                    StringBuilder sb = new StringBuilder(ex.toString());
+                    for (StackTraceElement ste : ex.getStackTrace())
+                    {
+                        sb.append("\n\tat ");
+                        sb.append(ste);
+                    }
+                    String trace = sb.toString();
+        //            mensajeTxa.setText( ex.getCause().toString()+"\n"+trace );
+        //            mensajeTxa.setEditable(false); 
+                    statusLbl.setForeground(new java.awt.Color(255, 0, 0));
+                    statusLbl.setText("Desconectado");
+                    conectarBtn.setText( "Conectar" );
+                    JOptionPane.showMessageDialog(conectarBtn, trace, ex.getCause().toString(), JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        timer.start();
     }//GEN-LAST:event_conectarBtnActionPerformed
 
     private void reqContrasenaChbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reqContrasenaChbxActionPerformed
@@ -588,21 +929,6 @@ public class Administrador extends javax.swing.JFrame {
             contrasenaTxt.setEnabled( true );
         }
     }//GEN-LAST:event_reqContrasenaChbxActionPerformed
-
-    private void connTypeCbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connTypeCbxActionPerformed
-        String selected = connTypeCbx.getSelectedItem().toString();
-        setConnType( selected );
-        if ( "SECURE".equals( selected ) )
-        {
-            cipherCbx.setEnabled( true );
-            rutaKeyStoreTxt.setEnabled( true );
-        }
-        else
-        {
-            cipherCbx.setEnabled( false );
-            rutaKeyStoreTxt.setEnabled( false );
-        }
-    }//GEN-LAST:event_connTypeCbxActionPerformed
 
     private void cargaMasivaChbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargaMasivaChbxActionPerformed
         if ( cargaMasivaChbx.isSelected() )
@@ -626,6 +952,260 @@ public class Administrador extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_cargaMasivaChbxActionPerformed
+
+    private void connTypeCbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connTypeCbxActionPerformed
+        String selected = connTypeCbx.getSelectedItem().toString();
+        setConnType( selected );
+        if ( "SECURE".equals( selected ) )
+        {
+            cipherCbx.setEnabled( true );
+            rutaKeyStoreTxt.setEnabled( true );
+        }
+        else
+        {
+            cipherCbx.setEnabled( false );
+            rutaKeyStoreTxt.setEnabled( false );
+        }
+    }//GEN-LAST:event_connTypeCbxActionPerformed
+
+    private void guardarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarBtnActionPerformed
+        try
+        {
+           if( !emptyLabelsValidator() )
+           {
+              return;
+           }
+            
+            String connectionName = nombreConexionTxt.getText();
+            String itExists = connectionReader.validateConnectionExistence( connectionName );
+            
+            if( itExists.equals( "not exist" ) )
+            {
+              Connection newConnection = new Connection();
+              
+              newConnection.setConnectionName( connectionName );
+              newConnection.setMqManager( gestorTxt.getText() );
+              newConnection.setMqChannel( canalTxt.getText() );
+              newConnection.setMqPort( puertoTxt.getText() );
+              newConnection.setMqHost( servidorTxt.getText() );
+              newConnection.setMqManagerUser( usuarioTxt.getText() );
+              
+              String selected = connTypeCbx.getSelectedItem().toString();
+              newConnection.setMqConnectionType( selected );
+              
+              connectionReader.createNewConnectionConfiguration( newConnection );
+              controlTextBox( false );
+              JOptionPane.showMessageDialog(this, "Conexión creada", "Notificación", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else if( itExists.equals( "exists" ) )
+            {
+                Connection newConnection = new Connection();
+              
+                newConnection.setConnectionName( connectionName );
+                newConnection.setMqManager( gestorTxt.getText() );
+                newConnection.setMqChannel( canalTxt.getText() );
+                newConnection.setMqPort( puertoTxt.getText() );
+                newConnection.setMqHost( servidorTxt.getText() );
+                newConnection.setMqManagerUser( usuarioTxt.getText() );
+              
+                String selected = connTypeCbx.getSelectedItem().toString();
+                newConnection.setMqConnectionType( selected );
+              
+                connectionReader.updateConnection( newConnection );
+                controlTextBox( false );
+                JOptionPane.showMessageDialog(this, "Conexión actualizada", "Notificación", JOptionPane.INFORMATION_MESSAGE);
+            }else
+            {
+                JOptionPane.showMessageDialog(this, itExists, "Notificación", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            loadConnectionData();
+            connectionListPopulation();            
+            
+            
+        }
+        catch ( SAXException ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+        catch ( IOException ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+        catch ( ParserConfigurationException ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+        catch ( TransformerException ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+    }//GEN-LAST:event_guardarBtnActionPerformed
+
+    private void eliminarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBtnActionPerformed
+        try {
+            String connectionName = nombreConexionTxt.getText();
+            String itExists = connectionReader.validateConnectionExistence( connectionName );
+            
+            if( itExists.equals( "exists" ) )
+            {
+                connectionReader.deleteConnection( connectionName );
+            }
+            
+            loadConnectionData();
+            connectionListPopulation();
+            
+            JOptionPane.showMessageDialog(this, "Conexión borrada", "Notificación", JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch ( SAXException ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+        catch ( IOException ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+        catch ( ParserConfigurationException ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+        catch ( TransformerException ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+    }//GEN-LAST:event_eliminarBtnActionPerformed
+
+    private void gestorTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestorTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gestorTxtActionPerformed
+
+    private void puertoTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_puertoTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_puertoTxtActionPerformed
+
+    private void rutaKeyStoreTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rutaKeyStoreTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rutaKeyStoreTxtActionPerformed
+
+    private void connectiosCbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectiosCbxActionPerformed
+
+    }//GEN-LAST:event_connectiosCbxActionPerformed
+
+    private void itemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_itemStateChanged
+        if( evt.getStateChange() == ItemEvent.SELECTED )
+        {
+            Connection conn = ( Connection ) connectiosCbx.getSelectedItem();
+            if ( conn != null )
+            {
+                gestorTxt.setText( conn.getMqManager() );
+                servidorTxt.setText( conn.getMqHost() );
+                puertoTxt.setText( conn.getMqPort() );
+                canalTxt.setText( conn.getMqChannel() );
+                usuarioTxt.setText( conn.getMqManagerUser() );
+                nombreConexionTxt.setText( conn.getConnectionName() );
+            }            
+        }
+    }//GEN-LAST:event_itemStateChanged
+
+    private void usePreConfigChbxActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_usePreConfigChbxActionPerformed
+    {//GEN-HEADEREND:event_usePreConfigChbxActionPerformed
+        if( usePreConfigChbx.isSelected() )
+        {
+            controlTextBox( false);
+            editarBtn.setEnabled( true );
+            connectiosCbx.setEnabled( true);
+        }
+        else
+        {
+            controlTextBox( true);
+            editarBtn.setEnabled( false );
+            connectiosCbx.setEnabled( false);
+        }
+    }//GEN-LAST:event_usePreConfigChbxActionPerformed
+
+    private void editarBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_editarBtnActionPerformed
+    {//GEN-HEADEREND:event_editarBtnActionPerformed
+        controlTextBox( true );
+    }//GEN-LAST:event_editarBtnActionPerformed
+
+    private void limpiarBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_limpiarBtnActionPerformed
+    {//GEN-HEADEREND:event_limpiarBtnActionPerformed
+        ConnectionLabelsCleaner();
+    }//GEN-LAST:event_limpiarBtnActionPerformed
+
+    private void verLogBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_verLogBtnActionPerformed
+    {//GEN-HEADEREND:event_verLogBtnActionPerformed
+        if ( colaMqTxt.getText().equals( "" ) )
+        {
+            JOptionPane.showMessageDialog(this, "El nombre de la Cola MQ está vacío.", "Error", JOptionPane.ERROR_MESSAGE);                                    
+            return;
+        }
+
+        if ( conn != null )
+        {
+            try {
+                if ( conn.status() )
+                { 
+                    try 
+                    {
+                        ArrayList<MQMessage> messages = conn.readOnce( colaMqTxt.getText() );
+                        MessageListFrame frame = new MessageListFrame( messages );
+                        frame.setLocationRelativeTo( this );
+                        frame.setVisible( true);
+                    }
+                    catch (MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException ex)
+                    {   
+                        Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
+                        StringBuilder sb = new StringBuilder(ex.toString());
+                        for (StackTraceElement ste : ex.getStackTrace())
+                        {
+                            sb.append("\n\tat ");
+                            sb.append(ste);
+                        }
+                        String trace = sb.toString();
+
+                        JOptionPane.showMessageDialog(this, trace, ex.getCause().toString(), JOptionPane.ERROR_MESSAGE);
+                    }
+                    catch( MQException ex )
+                    {
+                        Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "El gestor está desconectado.", "Error", JOptionPane.WARNING_MESSAGE);                                    
+                    return;
+                }
+            }
+            catch (MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException ex)
+            {
+                Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
+                StringBuilder sb = new StringBuilder(ex.toString());
+                for (StackTraceElement ste : ex.getStackTrace())
+                {
+                    sb.append("\n\tat ");
+                    sb.append(ste);
+                }
+                String trace = sb.toString();
+                
+                JOptionPane.showMessageDialog(this, trace, ex.getCause().toString(), JOptionPane.ERROR_MESSAGE);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Administrador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "El gestor está desconectado.", "Error", JOptionPane.WARNING_MESSAGE);                                    
+            return;
+        }
+    }//GEN-LAST:event_verLogBtnActionPerformed
+
+    private void limpiarMsjBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_limpiarMsjBtnActionPerformed
+    {//GEN-HEADEREND:event_limpiarMsjBtnActionPerformed
+        mensajeTxa.setText( "" );
+    }//GEN-LAST:event_limpiarMsjBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -659,8 +1239,7 @@ public class Administrador extends javax.swing.JFrame {
             public void run() {
                 Administrador admin = new Administrador();
                 admin.setConnType( admin.connTypeCbx.getSelectedItem().toString() );
-                admin.setVisible(true);
-                
+                admin.setVisible(true);                
             }
         });
     }
@@ -676,21 +1255,33 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTextField colaMqTxt;
     private javax.swing.JButton conectarBtn;
     private javax.swing.JPanel connConfJPanel;
+    private javax.swing.JPanel connConfJPanel1;
+    private javax.swing.JPanel connConfJPanel2;
+    private javax.swing.JPanel connConfJPanel3;
     private javax.swing.JComboBox<String> connTypeCbx;
     private javax.swing.JLabel connTypeLbl;
+    private javax.swing.JComboBox<Connection> connectiosCbx;
     private javax.swing.JLabel contrasenaLbl;
     private javax.swing.JPasswordField contrasenaTxt;
-    private javax.swing.JLabel errorLbl;
+    private javax.swing.JButton editarBtn;
+    private javax.swing.JButton eliminarBtn;
     private javax.swing.JLabel estadoLbl;
     private javax.swing.JLabel gestorLbl;
     private javax.swing.JTextField gestorTxt;
+    private javax.swing.JButton guardarBtn;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JButton limpiarBtn;
+    private javax.swing.JButton limpiarMsjBtn;
+    private javax.swing.JProgressBar loadProgress;
     private javax.swing.JTextArea mensajeTxa;
+    private javax.swing.JLabel nombreConexionLbl;
+    private javax.swing.JTextField nombreConexionTxt;
+    private javax.swing.JButton opcionesColasBtn;
     private javax.swing.JButton ponerMsgBtn;
     private javax.swing.JLabel puertoLbl;
     private javax.swing.JTextField puertoTxt;
@@ -700,8 +1291,10 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JLabel servidorLbl;
     private javax.swing.JTextField servidorTxt;
     private javax.swing.JLabel statusLbl;
+    private javax.swing.JCheckBox usePreConfigChbx;
     private javax.swing.JLabel usuarioLbl;
     private javax.swing.JTextField usuarioTxt;
+    private javax.swing.JButton verLogBtn;
     // End of variables declaration//GEN-END:variables
 
     private String connType;
@@ -727,5 +1320,124 @@ public class Administrador extends javax.swing.JFrame {
         return stringArray;
     }
     
-
+    public final void loadConnectionData()
+    {
+        try
+        {
+            connectionReader = new ConnectionReader();            
+        }
+        catch ( Exception ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+    }
+    
+    public final void connectionListPopulation()
+    {
+        try
+        {
+            if ( connectionReader.getConnections().size() > 0 )
+            {
+                connectiosCbx.removeAllItems();
+                
+                for( Connection c : connectionReader.getConnections() )
+                {
+                    connectiosCbx.addItem( c );
+                }
+            }
+        }
+        catch ( Exception ex )
+        {
+            Logger.getLogger( Administrador.class.getName() ).log( Level.SEVERE, null, ex );
+        }
+    }
+    
+    public void controlTextBox( boolean enable )
+    {
+        nombreConexionTxt.setEnabled( enable );
+        gestorTxt.setEnabled( enable );
+        servidorTxt.setEnabled( enable );
+        puertoTxt.setEnabled( enable );
+        canalTxt.setEnabled( enable );
+        usuarioTxt.setEnabled( enable );
+        contrasenaTxt.setEnabled( enable );
+        rutaKeyStoreTxt.setEnabled( enable );
+        guardarBtn.setEnabled( enable );
+        eliminarBtn.setEnabled( enable );
+        limpiarBtn.setEnabled( enable );
+        connTypeCbx.setEnabled( enable );
+        cipherCbx.setEnabled( enable );
+        reqContrasenaChbx.setEnabled( enable );
+    }
+    
+    public void ConnectionLabelsCleaner()
+    {
+        nombreConexionTxt.setText( "" );
+        gestorTxt.setText( "" );
+        servidorTxt.setText( "" );
+        puertoTxt.setText( "" );
+        canalTxt.setText( "" );
+        usuarioTxt.setText( "" );
+        contrasenaTxt.setText( "" );
+        rutaKeyStoreTxt.setText( "" );        
+    }
+    
+    public boolean emptyLabelsValidator()
+    {
+        String empties = "";
+        
+        if( nombreConexionTxt.getText().trim().equals( "" ) )
+        {
+            empties += nombreConexionLbl.getText() + "\n";
+        }
+        
+        if( gestorTxt.getText().trim().equals( "" ) )
+        {
+            empties += gestorLbl.getText() + "\n";
+        }
+        
+        if( servidorTxt.getText().trim().equals( "" ) )
+        {
+            empties += servidorLbl.getText() + "\n";
+        }
+        
+        if( puertoTxt.getText().trim().equals( "" ) )
+        {
+            empties += puertoLbl.getText() + "\n";
+        }
+        
+        if( canalTxt.getText().trim().equals( "" ) )
+        {
+            empties += canalLbl.getText() + "\n";
+        }
+        
+        if( connTypeCbx.getSelectedItem().toString().equals( "SECURE" ) )
+        {
+            if( usuarioTxt.getText().trim().equals( "" ) )
+            {
+                empties += usuarioLbl.getText() + "\n";
+            }
+            
+            if( !reqContrasenaChbx.isSelected() )
+            {
+                if( contrasenaTxt.getPassword().length == 0 )
+                {
+                    empties += contrasenaLbl.getText() + "\n";
+                }
+            }
+            
+            if( rutaKeyStoreTxt.getText().trim().equals( "" ) )
+            {
+                empties += rutaKeyStoreLbl.getText() + "\n";
+            }
+        }
+        
+        if( !empties.trim().equals( "" ) )
+        {
+            JOptionPane.showMessageDialog(this, "Los siguientes campos están vacíos: \n" + empties, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        return true;
+    }
 }
