@@ -262,7 +262,7 @@ public class Administrador extends javax.swing.JFrame {
                             .addComponent(nombreConexionLbl))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(gestorTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(gestorTxt)
                             .addComponent(puertoTxt)
                             .addComponent(servidorTxt)
                             .addComponent(canalTxt)
@@ -271,9 +271,9 @@ public class Administrador extends javax.swing.JFrame {
                     .addGroup(connConfJPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(guardarBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(eliminarBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(limpiarBtn)))
                 .addContainerGap())
         );
@@ -419,7 +419,7 @@ public class Administrador extends javax.swing.JFrame {
             connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connConfJPanelLayout.createSequentialGroup()
                 .addComponent(connConfJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(connConfJPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(connConfJPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -430,7 +430,7 @@ public class Administrador extends javax.swing.JFrame {
                         .addComponent(statusLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(conectarBtn)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         connConfJPanelLayout.setVerticalGroup(
             connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -574,7 +574,7 @@ public class Administrador extends javax.swing.JFrame {
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addComponent(connConfJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
                         .addComponent(limpiarMsjBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -592,7 +592,7 @@ public class Administrador extends javax.swing.JFrame {
                                 .addComponent(ponerMsgBtn))
                             .addComponent(secureConfJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(loadProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 60, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jInternalFrame1Layout.setVerticalGroup(
@@ -650,7 +650,7 @@ public class Administrador extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jSplitPane1)
+                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -662,7 +662,7 @@ public class Administrador extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -1148,8 +1148,9 @@ public class Administrador extends javax.swing.JFrame {
                 { 
                     try 
                     {
-                        ArrayList<MQMessage> messages = conn.readOnce( colaMqTxt.getText() );
-                        MessageListFrame frame = new MessageListFrame( messages );
+                        ArrayList<MQMessage> messages;
+                        messages = conn.readOnce( colaMqTxt.getText() );
+                        MessageListFrame frame = new MessageListFrame( messages, conn, colaMqTxt.getText() );
                         frame.setLocationRelativeTo( this );
                         frame.setVisible( true);
                     }
@@ -1239,7 +1240,7 @@ public class Administrador extends javax.swing.JFrame {
             public void run() {
                 Administrador admin = new Administrador();
                 admin.setConnType( admin.connTypeCbx.getSelectedItem().toString() );
-                admin.setVisible(true);                
+                admin.setVisible(true);
             }
         });
     }

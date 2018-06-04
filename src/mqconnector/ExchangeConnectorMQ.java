@@ -189,7 +189,7 @@ public class ExchangeConnectorMQ
         }
     }
     
-        public ArrayList<MQMessage> dropMessages( String queueName ) throws MQMMessageBrockerConnectionRefusedException, MQMMessageBrockerUnexpectedException, MQException, IOException
+    public boolean dropMessages( String queueName ) throws MQMMessageBrockerConnectionRefusedException, MQMMessageBrockerUnexpectedException, MQException, IOException
     {	
 	MQQueue remoteQueue = null;
 	int ownOpenOptions = MQC.MQOO_INPUT_AS_Q_DEF | MQC.MQOO_OUTPUT | MQC.MQOO_INQUIRE;
@@ -204,7 +204,8 @@ public class ExchangeConnectorMQ
             MQMessage retrievedMessage = new MQMessage();
             MQGetMessageOptions gmo = new MQGetMessageOptions();
             gmo.waitInterval = MQC.MQWI_UNLIMITED;
-            gmo.options = MQC.MQGMO_NO_WAIT + MQC.MQGMO_FAIL_IF_QUIESCING + MQC.MQGMO_CONVERT + MQC.MQGMO_BROWSE_NEXT;
+            gmo.options = MQC.MQGMO_NO_WAIT + MQC.MQGMO_FAIL_IF_QUIESCING + MQC.MQGMO_CONVERT;
+            
 //            gmo.options | MQC.MQGMO_WAIT;
 			
             //Read once the messages and wait while there isn't any in queue.
@@ -215,6 +216,7 @@ public class ExchangeConnectorMQ
             for( int i = 0; i < currentDepth; i++ )
             {
                 remoteQueue.get( retrievedMessage, gmo );
+                
                 messages.add( retrievedMessage );
 //                messages.add( retrievedMessage.readStringOfByteLength( retrievedMessage.getDataLength() ) );
                 retrievedMessage = new MQMessage();
@@ -226,7 +228,7 @@ public class ExchangeConnectorMQ
             retrievedMessage.messageId = MQC.MQMI_NONE;
             retrievedMessage.groupId = MQC.MQGI_NONE;
 	
-            return messages;
+            return true;
 	}
         catch( MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException | IOException | MQException e)
         {
@@ -263,6 +265,42 @@ public class ExchangeConnectorMQ
             messages = remoteQueue.getCurrentDepth();
             
             return messages;
+	}
+        catch( MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException | MQException e)
+        {
+            throw e;
+        }
+        finally
+        {
+            try
+            {
+                if ( remoteQueue.isOpen() )
+                {
+                    remoteQueue.close();
+		} 
+                
+                qMgr.disconnect();
+            }
+            catch ( Exception ex )
+            {
+                throw ex;
+            }
+        }
+    }
+    
+    public void deleteMessage( String queueName, String correlationID ) throws MQMMessageBrockerConnectionRefusedException, MQMMessageBrockerUnexpectedException, MQException
+    {	
+	MQQueue remoteQueue = null;
+	int messages = 0;
+	try 
+        {
+            if ( qMgr.isConnected() == false )
+            {
+                qMgr = getInstanceqMgr();
+            }
+            
+            remoteQueue = qMgr.accessQueue( queueName, openOptions );
+            
 	}
         catch( MQMMessageBrockerConnectionRefusedException | MQMMessageBrockerUnexpectedException | MQException e)
         {

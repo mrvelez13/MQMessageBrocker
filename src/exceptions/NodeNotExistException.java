@@ -7,7 +7,7 @@ public class NodeNotExistException extends AuditingException {
 
 
 	/**
-	 * Se genera esta excepci�n no existe uno de los nodos requeridos en el archivo xml
+	 * Se genera esta excepcion no existe uno de los nodos requeridos en el archivo xml
 	 */
 	private static final long serialVersionUID = 1L;
 

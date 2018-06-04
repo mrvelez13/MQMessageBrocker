@@ -33,7 +33,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanel2" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -62,7 +62,7 @@
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSplitPane1" max="32767" attributes="0"/>
+                      <Component id="jSplitPane1" pref="741" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -171,7 +171,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="connConfJPanel" max="32767" attributes="0"/>
-                              <EmptySpace pref="67" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="limpiarMsjBtn" max="32767" attributes="0"/>
@@ -192,7 +192,7 @@
                                           <Component id="secureConfJPanel" max="32767" attributes="0"/>
                                           <Component id="loadProgress" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="60" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -240,7 +240,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="connConfJPanel1" max="32767" attributes="0"/>
-                                  <EmptySpace pref="26" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="connConfJPanel2" max="32767" attributes="0"/>
                                       <Component id="connConfJPanel3" max="32767" attributes="0"/>
@@ -253,7 +253,7 @@
                                           <Component id="conectarBtn" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace pref="32" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -305,7 +305,7 @@
                                               </Group>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="gestorTxt" pref="146" max="32767" attributes="0"/>
+                                                  <Component id="gestorTxt" max="32767" attributes="0"/>
                                                   <Component id="puertoTxt" max="32767" attributes="0"/>
                                                   <Component id="servidorTxt" max="32767" attributes="0"/>
                                                   <Component id="canalTxt" alignment="0" max="32767" attributes="0"/>
@@ -316,9 +316,9 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="guardarBtn" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace pref="16" max="32767" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                               <Component id="eliminarBtn" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace pref="16" max="32767" attributes="0"/>
+                                              <EmptySpace max="32767" attributes="0"/>
                                               <Component id="limpiarBtn" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>

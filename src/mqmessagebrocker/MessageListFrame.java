@@ -5,28 +5,44 @@
  */
 package mqmessagebrocker;
 
-import com.ibm.mq.MQC;
+import com.ibm.mq.MQException;
 import com.ibm.mq.MQMessage;
+import exceptions.MQMMessageBrockerConnectionRefusedException;
+import exceptions.MQMMessageBrockerUnexpectedException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import model.CustomizedMQMessage;
-import utilities.TypesUtilities;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import mqconnector.ExchangeConnectorMQ;
 import view.MessageDetailFrame;
 
 /**
  *
  * @author jonathan.velez
  */
-public class MessageListFrame extends javax.swing.JFrame
+public class MessageListFrame extends JFrame implements ActionListener
 {
 
+    ExchangeConnectorMQ connection;
+    JMenuItem deleteItem;
+    JMenuItem detailItem;
+    JMenuItem exportOneItem;
+    JMenuItem exportAllItem;
+    private JPopupMenu popupMenu;
+    String qname;
     /**
      * Creates new form MessageListFrame
      */
@@ -35,10 +51,27 @@ public class MessageListFrame extends javax.swing.JFrame
         initComponents();
     }
     
-    public MessageListFrame( ArrayList<MQMessage> messages ) throws IOException
+    public MessageListFrame( ArrayList<MQMessage> messages, ExchangeConnectorMQ conn, String queue ) throws IOException
     {
         initComponents();
+        deleteItem = new JMenuItem("Borrar");
+        detailItem = new JMenuItem("Abrir");
+        exportOneItem = new JMenuItem("Exportar seleccionado");
+        exportAllItem = new JMenuItem("Exportar todo");
+        deleteItem.addActionListener( this );
+        detailItem.addActionListener( this );
+        exportOneItem.addActionListener( this );
+        exportAllItem.addActionListener( this );
+        popupMenu = new JPopupMenu();
+        popupMenu.add( deleteItem );
+        popupMenu.add( detailItem );
+        popupMenu.add( exportOneItem );
+        popupMenu.add( exportAllItem );
+        qname = queue;
+        
         loadTable( messages );
+        connection = conn;
+       
     }
 
     /**
@@ -132,21 +165,16 @@ public class MessageListFrame extends javax.swing.JFrame
 
     private void tableMessagesRowSelected(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tableMessagesRowSelected
     {//GEN-HEADEREND:event_tableMessagesRowSelected
+        MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
+        
         if( evt.getClickCount() == 2 && !evt.isConsumed() )
         {
             if( evt.getButton() == MouseEvent.BUTTON1 )
             {
                 evt.consume();
-                MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
-                
                 MessageDetailFrame msd = new MessageDetailFrame( (String) model.getValueAt( tableMessageList.getSelectedRow(),1), (Date) model.getValueAt( tableMessageList.getSelectedRow(),3), (String) model.getValueAt( tableMessageList.getSelectedRow(),2), (String) model.getValueAt( tableMessageList.getSelectedRow(),4) );
                 msd.setLocationRelativeTo( this );
                 msd.setVisible( true );                
-            }
-            else if( evt.getButton() == MouseEvent.BUTTON3 )
-            {
-                evt.consume();
-                JOptionPane.showMessageDialog(this, "Esta funcionalidad está en construcción.", "Información", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_tableMessagesRowSelected
@@ -223,7 +251,166 @@ public class MessageListFrame extends javax.swing.JFrame
         }
         model = new MessagesListTableModel( rowlist );
         regTotCountLbl.setText( Integer.toString( messages.size() ) );
-        tableMessageList.setModel( model );        
+        tableMessageList.setModel( model ); 
+        tableMessageList.setComponentPopupMenu( popupMenu );
 //        tableMessageList.setVisible( true );
+    }
+    
+    @Override
+    public void actionPerformed( ActionEvent evt )
+    {
+        JMenuItem menu = (JMenuItem) evt.getSource();
+        
+        if ( menu == deleteItem )
+        {
+            try
+            {
+                deleteItem();
+            }
+            catch( MQMMessageBrockerConnectionRefusedException ex )
+            {
+                Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
+            }
+            catch( MQMMessageBrockerUnexpectedException ex )
+            {
+                Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
+            }
+            catch( MQException ex )
+            {
+                Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
+            }
+            catch( IOException ex )
+            {
+                Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
+            }
+        }
+        else if ( menu == detailItem )
+        {
+            detailItem();
+        }
+        else if ( menu == exportOneItem )
+        {
+            exportOneItem();
+        }
+        else if ( menu == exportAllItem )
+        {
+            exportAllItems();
+        }
+    }
+    
+    public void deleteItem() throws MQMMessageBrockerConnectionRefusedException, MQMMessageBrockerUnexpectedException, MQException, IOException
+    {
+        if ( connection != null )
+        {
+            if ( connection.dropMessages( qname ) )
+            {
+                loadTable( new ArrayList<MQMessage>() );
+            }
+        }
+    }
+    
+    public void detailItem()
+    {
+        MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
+        MessageDetailFrame msd = new MessageDetailFrame( (String) model.getValueAt( tableMessageList.getSelectedRow(),1), (Date) model.getValueAt( tableMessageList.getSelectedRow(),3), (String) model.getValueAt( tableMessageList.getSelectedRow(),2), (String) model.getValueAt( tableMessageList.getSelectedRow(),4) );
+        msd.setLocationRelativeTo( this );
+        msd.setVisible( true );
+    }
+    
+    public void exportOneItem()
+    {
+        MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
+        String messageContent = (String) model.getValueAt( tableMessageList.getSelectedRow(),1);
+        String messageName = model.getValueAt( tableMessageList.getSelectedRow(),0).toString();
+//        MessageDetailFrame msd = new MessageDetailFrame( (String) model.getValueAt( tableMessageList.getSelectedRow(),1), (Date) model.getValueAt( tableMessageList.getSelectedRow(),3), (String) model.getValueAt( tableMessageList.getSelectedRow(),2), (String) model.getValueAt( tableMessageList.getSelectedRow(),4) );
+//        msd.setLocationRelativeTo( this );
+//        msd.setVisible( true );
+        String folder =  System.getProperty("user.home");
+        
+        if ( new File( folder + "/" + qname ).mkdirs() || new File( folder + "/" + qname ).exists() )
+        {
+            File archivo = new File( folder + "/" + qname + "/" + messageName );
+            BufferedWriter bw;
+        
+            if(archivo.exists())
+            {
+                try
+                {
+                    bw = new BufferedWriter(new FileWriter(archivo));
+                    bw.write( messageContent );
+                    bw.close();
+                }
+                catch( IOException ex )
+                {
+                    Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
+                }
+            }
+            else
+            {
+                try
+                {
+                    bw = new BufferedWriter(new FileWriter(archivo));
+                    bw.write( messageContent );
+                    bw.close();
+                }
+                catch( IOException ex )
+                {
+                    Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
+                }
+
+            }
+        }        
+    }
+    
+    public void exportAllItems()
+    {
+        MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
+        String folder =  System.getProperty("user.home");
+        
+        for ( CustomizedMQMessage customMessage : model.getDataList() )
+        {
+            String messageContent = customMessage.getData();
+            int messageName = customMessage.getNumber();
+            new File( folder + "/" + qname ).mkdirs();
+            
+            if ( new File( folder + "/" + qname ).mkdirs() || new File( folder + "/" + qname ).exists() )
+            {
+                File archivo = new File( folder + "/" + qname + "/" + messageName );
+                BufferedWriter bw;
+        
+                if(archivo.exists())
+                {
+                    try
+                    {
+                        bw = new BufferedWriter(new FileWriter(archivo));
+                        bw.write( messageContent );
+                        bw.close();
+                    }
+                    catch( IOException ex )
+                    {
+                        Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        bw = new BufferedWriter(new FileWriter(archivo));
+                        bw.write( messageContent );
+                        bw.close();
+                    }
+                    catch( IOException ex )
+                    {
+                        Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
+                    }
+
+                }
+            }         
+        }
+        
+//        MessageDetailFrame msd = new MessageDetailFrame( (String) model.getValueAt( tableMessageList.getSelectedRow(),1), (Date) model.getValueAt( tableMessageList.getSelectedRow(),3), (String) model.getValueAt( tableMessageList.getSelectedRow(),2), (String) model.getValueAt( tableMessageList.getSelectedRow(),4) );
+//        msd.setLocationRelativeTo( this );
+//        msd.setVisible( true );
+        
     }
 }
