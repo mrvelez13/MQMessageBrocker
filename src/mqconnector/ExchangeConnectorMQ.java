@@ -15,9 +15,12 @@ import com.ibm.mq.MQGetMessageOptions;
 import com.ibm.mq.MQMessage;
 import com.ibm.mq.MQPutMessageOptions;
 import com.ibm.mq.MQQueue;
+
 import java.awt.Component;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import mqmessagebrocker.Administrador;
 import mqmessagebrocker.Connection;
@@ -189,11 +192,17 @@ public class ExchangeConnectorMQ
         }
     }
     
-    public boolean dropMessages( String queueName ) throws MQMMessageBrockerConnectionRefusedException, MQMMessageBrockerUnexpectedException, MQException, IOException
+    public boolean dropMessages( String queueName , String correlationID ) throws MQMMessageBrockerConnectionRefusedException, MQMMessageBrockerUnexpectedException, MQException, IOException
     {	
 	MQQueue remoteQueue = null;
 	int ownOpenOptions = MQC.MQOO_INPUT_AS_Q_DEF | MQC.MQOO_OUTPUT | MQC.MQOO_INQUIRE;
-	try 
+	 MQMessage message = new MQMessage();
+        JOptionPane.showMessageDialog(null, queueName);
+        JOptionPane.showMessageDialog(null, ownOpenOptions);
+       
+        byte[] pruebas = message.correlationId;
+        JOptionPane.showMessageDialog(null,"correlation ID"+pruebas);
+        try 
         {
             if ( qMgr.isConnected() == false )
             {
@@ -201,10 +210,16 @@ public class ExchangeConnectorMQ
             }
             
             remoteQueue = qMgr.accessQueue( queueName, ownOpenOptions );
+            JOptionPane.showMessageDialog(null,"remote queue "+ remoteQueue);
             MQMessage retrievedMessage = new MQMessage();
+               JOptionPane.showMessageDialog(null,"retrievedMessage "+ retrievedMessage);
             MQGetMessageOptions gmo = new MQGetMessageOptions();
+             JOptionPane.showMessageDialog(null,"gmo"+  gmo);
             gmo.waitInterval = MQC.MQWI_UNLIMITED;
             gmo.options = MQC.MQGMO_NO_WAIT + MQC.MQGMO_FAIL_IF_QUIESCING + MQC.MQGMO_CONVERT;
+             JOptionPane.showMessageDialog(null,"option "+ gmo.options);
+              JOptionPane.showMessageDialog(null,"waitinterval "+ gmo.waitInterval);
+            
             
 //            gmo.options | MQC.MQGMO_WAIT;
 			
@@ -291,6 +306,9 @@ public class ExchangeConnectorMQ
     public void deleteMessage( String queueName, String correlationID ) throws MQMMessageBrockerConnectionRefusedException, MQMMessageBrockerUnexpectedException, MQException
     {	
 	MQQueue remoteQueue = null;
+        correlationID = null;
+//         correlationID = MQMessage .correlationID;
+        //int ownOpenOptions = MQC.MQOO_INPUT_AS_Q_DEF | MQC.MQOO_OUTPUT | MQC.MQOO_INQUIRE;
 	int messages = 0;
 	try 
         {

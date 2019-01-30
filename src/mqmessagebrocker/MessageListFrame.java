@@ -9,6 +9,7 @@ import com.ibm.mq.MQException;
 import com.ibm.mq.MQMessage;
 import exceptions.MQMMessageBrockerConnectionRefusedException;
 import exceptions.MQMMessageBrockerUnexpectedException;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -23,9 +24,12 @@ import model.CustomizedMQMessage;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import mqconnector.ExchangeConnectorMQ;
 import view.MessageDetailFrame;
 
@@ -43,6 +47,7 @@ public class MessageListFrame extends JFrame implements ActionListener
     JMenuItem exportAllItem;
     private JPopupMenu popupMenu;
     String qname;
+    String correID;
     /**
      * Creates new form MessageListFrame
      */
@@ -68,7 +73,8 @@ public class MessageListFrame extends JFrame implements ActionListener
         popupMenu.add( exportOneItem );
         popupMenu.add( exportAllItem );
         qname = queue;
-        
+        String correlationID = null;
+        correID= correlationID;
         loadTable( messages );
         connection = conn;
        
@@ -299,16 +305,21 @@ public class MessageListFrame extends JFrame implements ActionListener
     }
     
     public void deleteItem() throws MQMMessageBrockerConnectionRefusedException, MQMMessageBrockerUnexpectedException, MQException, IOException
-    {
+    {   {MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
+        String messageContent = (String) model.getValueAt( tableMessageList.getSelectedRow(),1);
+        String messageName = model.getValueAt( tableMessageList.getSelectedRow(),0).toString();
+        JOptionPane.showMessageDialog(null,"Message Name"+messageName);
         if ( connection != null )
         {
-            if ( connection.dropMessages( qname ) )
+            String correlationId = null;
+            if ( connection.dropMessages( qname , correlationId ) )
+//            if ( connection.deleteMessage(qname,correID) )
             {
                 loadTable( new ArrayList<MQMessage>() );
             }
         }
     }
-    
+    }
     public void detailItem()
     {
         MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
@@ -318,18 +329,38 @@ public class MessageListFrame extends JFrame implements ActionListener
     }
     
     public void exportOneItem()
-    {
-        MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
+    {MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
         String messageContent = (String) model.getValueAt( tableMessageList.getSelectedRow(),1);
         String messageName = model.getValueAt( tableMessageList.getSelectedRow(),0).toString();
 //        MessageDetailFrame msd = new MessageDetailFrame( (String) model.getValueAt( tableMessageList.getSelectedRow(),1), (Date) model.getValueAt( tableMessageList.getSelectedRow(),3), (String) model.getValueAt( tableMessageList.getSelectedRow(),2), (String) model.getValueAt( tableMessageList.getSelectedRow(),4) );
 //        msd.setLocationRelativeTo( this );
 //        msd.setVisible( true );
-        String folder =  System.getProperty("user.home");
-        
-        if ( new File( folder + "/" + qname ).mkdirs() || new File( folder + "/" + qname ).exists() )
-        {
-            File archivo = new File( folder + "/" + qname + "/" + messageName );
+//        String folder =  System.getProperty("user.home");
+         String folder2=null;
+        JFileChooser jF1 = new JFileChooser();  
+        int contador =0;
+
+    jF1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
+    // disable the "All files" option. 
+    // 
+    jF1.setAcceptAllFileFilterUsed(false); 
+    //  
+    if (jF1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+//     System.out.println("getCurrentDirectory(): " 
+//     + jF1.getCurrentDirectory()); 
+    
+     System.out.println("getSelectedFile() : " 
+     + jF1.getSelectedFile().getAbsolutePath());
+      folder2 = jF1.getSelectedFile().getAbsolutePath();
+         
+    } 
+    else { 
+     System.out.println("No Selection "); 
+     } 
+     
+        if ( new File( folder2 + "/" + qname ).mkdirs() || new File( folder2 + "/" + qname ).exists() )
+        {    
+            File archivo = new File( folder2 + "/" + qname + "/" + messageName );
             BufferedWriter bw;
         
             if(archivo.exists())
@@ -338,6 +369,7 @@ public class MessageListFrame extends JFrame implements ActionListener
                 {
                     bw = new BufferedWriter(new FileWriter(archivo));
                     bw.write( messageContent );
+                    contador = contador +1;
                     bw.close();
                 }
                 catch( IOException ex )
@@ -359,23 +391,58 @@ public class MessageListFrame extends JFrame implements ActionListener
                 }
 
             }
+             
+        }
+        JOptionPane.showMessageDialog(null,"contador"+contador);
+if (contador<=1){
+        JOptionPane.showMessageDialog(null,"No se exporto el item seleccionado Mensaje #: "+messageName);
+        }else {
+        JOptionPane.showMessageDialog(null,"Se exporto el item seleccionado correctamente Mensaje #: "+messageName);
+        
         }        
+       
     }
-    
+        
     public void exportAllItems()
     {
         MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
-        String folder =  System.getProperty("user.home");
-        
-        for ( CustomizedMQMessage customMessage : model.getDataList() )
+        //String folder =  System.getProperty("user.home");
+        int contador =0;
+        String folder2=null;
+        JFileChooser jF1 = new JFileChooser();  
+
+    jF1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
+    // disable the "All files" option. 
+    // 
+    jF1.setAcceptAllFileFilterUsed(false); 
+    //  
+    if (jF1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
+     System.out.println("getCurrentDirectory(): " 
+     + jF1.getCurrentDirectory()); 
+    
+     System.out.println("getSelectedFile() : " 
+     + jF1.getSelectedFile().getAbsolutePath());
+      folder2 = jF1.getSelectedFile().getAbsolutePath();
+         
+    } 
+    else { 
+     System.out.println("No Selection "); 
+     } 
+     
+
+for ( CustomizedMQMessage customMessage : model.getDataList() )
         {
             String messageContent = customMessage.getData();
             int messageName = customMessage.getNumber();
-            new File( folder + "/" + qname ).mkdirs();
-            
-            if ( new File( folder + "/" + qname ).mkdirs() || new File( folder + "/" + qname ).exists() )
-            {
-                File archivo = new File( folder + "/" + qname + "/" + messageName );
+//            JOptionPane.showMessageDialog(null,"messageContent"+messageContent);
+//            JOptionPane.showMessageDialog(null,"messageName"+messageName);
+//             JOptionPane.showMessageDialog(null,"este es chooser"+choosertitle );
+            new File( folder2 ).mkdirs();
+//             JOptionPane.showMessageDialog(null,"folder2"+folder2);
+            if ( new File( folder2 + "/" + qname ).mkdirs() || new File( folder2 + "/" + qname ).exists() )
+            {   
+                contador= contador +1;
+                File archivo = new File(folder2 + "/" + qname + "/" + messageName );
                 BufferedWriter bw;
         
                 if(archivo.exists())
@@ -407,10 +474,15 @@ public class MessageListFrame extends JFrame implements ActionListener
                 }
             }         
         }
-        
+        if (contador>=1){
+        JOptionPane.showMessageDialog(this,"Se Exporto Correctamente");
 //        MessageDetailFrame msd = new MessageDetailFrame( (String) model.getValueAt( tableMessageList.getSelectedRow(),1), (Date) model.getValueAt( tableMessageList.getSelectedRow(),3), (String) model.getValueAt( tableMessageList.getSelectedRow(),2), (String) model.getValueAt( tableMessageList.getSelectedRow(),4) );
 //        msd.setLocationRelativeTo( this );
 //        msd.setVisible( true );
-        
+             }else{
+             JOptionPane.showMessageDialog(this,"Algo fallo al exportar");
+             }
+ 
+
     }
 }

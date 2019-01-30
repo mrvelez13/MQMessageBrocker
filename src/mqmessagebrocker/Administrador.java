@@ -68,8 +68,7 @@ public class Administrador extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
         jSplitPane1 = new javax.swing.JSplitPane();
@@ -183,10 +182,8 @@ public class Administrador extends javax.swing.JFrame {
         connTypeLbl.setText("Tipo de Conexión");
 
         gestorTxt.setText("DCOLQMGRMIG01");
-        gestorTxt.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        gestorTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gestorTxtActionPerformed(evt);
             }
         });
@@ -194,10 +191,8 @@ public class Administrador extends javax.swing.JFrame {
         servidorTxt.setText("10.8.87.145");
 
         puertoTxt.setText("1418");
-        puertoTxt.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        puertoTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 puertoTxtActionPerformed(evt);
             }
         });
@@ -205,10 +200,8 @@ public class Administrador extends javax.swing.JFrame {
         canalTxt.setText("CHANNEL.CLIENT");
 
         connTypeCbx.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CLIENT", "SECURE" }));
-        connTypeCbx.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        connTypeCbx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connTypeCbxActionPerformed(evt);
             }
         });
@@ -217,28 +210,22 @@ public class Administrador extends javax.swing.JFrame {
         gestorLbl.setVerifyInputWhenFocusTarget(false);
 
         guardarBtn.setText("Guardar");
-        guardarBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        guardarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 guardarBtnActionPerformed(evt);
             }
         });
 
         eliminarBtn.setText("Eliminar");
-        eliminarBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        eliminarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eliminarBtnActionPerformed(evt);
             }
         });
 
         limpiarBtn.setText("Limpiar");
-        limpiarBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        limpiarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limpiarBtnActionPerformed(evt);
             }
         });
@@ -296,7 +283,7 @@ public class Administrador extends javax.swing.JFrame {
                 .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(puertoTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(puertoLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(canalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(canalLbl))
@@ -304,7 +291,7 @@ public class Administrador extends javax.swing.JFrame {
                 .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(connTypeCbx, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(connTypeLbl))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(connConfJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(guardarBtn)
                     .addComponent(eliminarBtn)
@@ -341,34 +328,26 @@ public class Administrador extends javax.swing.JFrame {
         connConfJPanel3.setToolTipText("");
 
         usePreConfigChbx.setText("Utilizar conexiones preestablecitas");
-        usePreConfigChbx.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        usePreConfigChbx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usePreConfigChbxActionPerformed(evt);
             }
         });
 
-        connectiosCbx.addItemListener(new java.awt.event.ItemListener()
-        {
-            public void itemStateChanged(java.awt.event.ItemEvent evt)
-            {
+        connectiosCbx.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 Administrador.this.itemStateChanged(evt);
             }
         });
-        connectiosCbx.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        connectiosCbx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectiosCbxActionPerformed(evt);
             }
         });
 
         editarBtn.setText("Editar");
-        editarBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        editarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editarBtnActionPerformed(evt);
             }
         });
@@ -405,10 +384,8 @@ public class Administrador extends javax.swing.JFrame {
         statusLbl.setText("Desconectado");
 
         conectarBtn.setText("Conectar");
-        conectarBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        conectarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 conectarBtnActionPerformed(evt);
             }
         });
@@ -455,10 +432,8 @@ public class Administrador extends javax.swing.JFrame {
         usuarioLbl.setText("Usuario");
 
         reqContrasenaChbx.setText("No requiere contraseña");
-        reqContrasenaChbx.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        reqContrasenaChbx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reqContrasenaChbxActionPerformed(evt);
             }
         });
@@ -471,10 +446,8 @@ public class Administrador extends javax.swing.JFrame {
 
         rutaKeyStoreLbl.setText("Ruta keystore");
 
-        rutaKeyStoreTxt.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        rutaKeyStoreTxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rutaKeyStoreTxtActionPerformed(evt);
             }
         });
@@ -531,28 +504,22 @@ public class Administrador extends javax.swing.JFrame {
         );
 
         ponerMsgBtn.setText("Poner mensaje");
-        ponerMsgBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        ponerMsgBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ponerMsgBtnActionPerformed(evt);
             }
         });
 
         cargaMasivaChbx.setText("Carga Masiva");
-        cargaMasivaChbx.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        cargaMasivaChbx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cargaMasivaChbxActionPerformed(evt);
             }
         });
 
         limpiarMsjBtn.setText("Limpiar Área de Mensaje");
-        limpiarMsjBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        limpiarMsjBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 limpiarMsjBtnActionPerformed(evt);
             }
         });
@@ -560,10 +527,8 @@ public class Administrador extends javax.swing.JFrame {
         opcionesColasBtn.setText("Ver Opciones");
 
         verLogBtn.setText("Monitorear cola");
-        verLogBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        verLogBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 verLogBtnActionPerformed(evt);
             }
         });
@@ -627,7 +592,7 @@ public class Administrador extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jInternalFrame1))
         );
 
