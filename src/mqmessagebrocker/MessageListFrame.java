@@ -72,7 +72,7 @@ public class MessageListFrame extends JFrame implements ActionListener
         popupMenu.add( detailItem );
         popupMenu.add( exportOneItem );
         popupMenu.add( exportAllItem );
-        qname = queue;
+        qname = queue.trim();
         String correlationID = null;
         correID= correlationID;
         loadTable( messages );
@@ -329,78 +329,68 @@ public class MessageListFrame extends JFrame implements ActionListener
     }
     
     public void exportOneItem()
-    {MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
+    {
+        MessagesListTableModel model = ( MessagesListTableModel ) tableMessageList.getModel();
         String messageContent = (String) model.getValueAt( tableMessageList.getSelectedRow(),1);
         String messageName = model.getValueAt( tableMessageList.getSelectedRow(),0).toString();
-//        MessageDetailFrame msd = new MessageDetailFrame( (String) model.getValueAt( tableMessageList.getSelectedRow(),1), (Date) model.getValueAt( tableMessageList.getSelectedRow(),3), (String) model.getValueAt( tableMessageList.getSelectedRow(),2), (String) model.getValueAt( tableMessageList.getSelectedRow(),4) );
-//        msd.setLocationRelativeTo( this );
-//        msd.setVisible( true );
-//        String folder =  System.getProperty("user.home");
-         String folder2=null;
+
+        String folder = "";
         JFileChooser jF1 = new JFileChooser();  
-        int contador =0;
+        int contador = 0;
 
-    jF1.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
-    // disable the "All files" option. 
-    // 
-    jF1.setAcceptAllFileFilterUsed(false); 
+        jF1.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+        jF1.setDialogTitle( "Export selected item" );
+        jF1.setApproveButtonText("Save");
+        jF1.setApproveButtonToolTipText( "Save the selected item from table" );
+
+        // disable the "All files" option. 
+        // 
+        jF1.setAcceptAllFileFilterUsed(false); 
     //  
-    if (jF1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) { 
-//     System.out.println("getCurrentDirectory(): " 
-//     + jF1.getCurrentDirectory()); 
-    
-     System.out.println("getSelectedFile() : " 
-     + jF1.getSelectedFile().getAbsolutePath());
-      folder2 = jF1.getSelectedFile().getAbsolutePath();
-         
-    } 
-    else { 
-     System.out.println("No Selection "); 
-     } 
-     
-        if ( new File( folder2 + "/" + qname ).mkdirs() || new File( folder2 + "/" + qname ).exists() )
-        {    
-            File archivo = new File( folder2 + "/" + qname + "/" + messageName );
-            BufferedWriter bw;
-        
-            if(archivo.exists())
-            {
-                try
-                {
-                    bw = new BufferedWriter(new FileWriter(archivo));
-                    bw.write( messageContent );
-                    contador = contador +1;
-                    bw.close();
-                }
-                catch( IOException ex )
-                {
-                    Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
-                }
-            }
-            else
-            {
-                try
-                {
-                    bw = new BufferedWriter(new FileWriter(archivo));
-                    bw.write( messageContent );
-                    bw.close();
-                }
-                catch( IOException ex )
-                {
-                    Logger.getLogger( MessageListFrame.class.getName() ).log( Level.SEVERE, null, ex );
+        if (jF1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            System.out.println("getSelectedFile() : "
+                    + jF1.getSelectedFile().getAbsolutePath());
+            folder = jF1.getSelectedFile().getAbsolutePath();
+
+            if (new File(folder + "/" + qname).mkdirs() || new File(folder + "/" + qname).exists()) {
+                File archivo = new File(folder + "/" + qname + "/" + messageName);
+                BufferedWriter bw;
+
+                if (archivo.exists()) {
+                    try {
+                        bw = new BufferedWriter(new FileWriter(archivo));
+                        bw.write(messageContent);
+                        bw.close();
+
+                        JOptionPane.showMessageDialog(this, "Export successful!\n"
+                                + "Path: " + archivo.getAbsolutePath() );
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(MessageListFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    try {
+                        bw = new BufferedWriter(new FileWriter(archivo));
+                        bw.write(messageContent);
+                        bw.close();
+
+                        JOptionPane.showMessageDialog(this, "Export successful!\n"
+                                + "Path: " + archivo.getAbsolutePath() );
+                                
+                    } catch (IOException ex) {
+                        Logger.getLogger(MessageListFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
                 }
 
             }
-             
+
+        } else {
+            System.out.println("No Selection ");
         }
-        JOptionPane.showMessageDialog(null,"contador"+contador);
-if (contador<=1){
-        JOptionPane.showMessageDialog(null,"No se exporto el item seleccionado Mensaje #: "+messageName);
-        }else {
-        JOptionPane.showMessageDialog(null,"Se exporto el item seleccionado correctamente Mensaje #: "+messageName);
-        
-        }        
-       
+
     }
         
     public void exportAllItems()
