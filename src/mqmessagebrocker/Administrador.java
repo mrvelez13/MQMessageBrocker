@@ -26,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
@@ -39,7 +40,9 @@ public class Administrador extends javax.swing.JFrame {
     
     ExchangeConnectorMQ conn;
     ConnectionReader connectionReader;
-
+    Color themeColor = Color.LIGHT_GRAY;
+    Color textColor = Color.WHITE;
+    
     /**
      * Creates new form Administrador
      */
@@ -58,7 +61,7 @@ public class Administrador extends javax.swing.JFrame {
         reqContrasenaChbx.setSelected( true );
         contrasenaTxt.setEnabled( false );
         opcionesColasBtn.setVisible( false );
-        loadProgress.setVisible( false );
+        loadProgress.setVisible( false );        
     }
 
     /**
@@ -104,7 +107,7 @@ public class Administrador extends javax.swing.JFrame {
         estadoLbl = new javax.swing.JLabel();
         statusLbl = new javax.swing.JLabel();
         conectarBtn = new javax.swing.JButton();
-        javax.swing.JPanel secureConfJPanel = new javax.swing.JPanel();
+        secureConfJPanel = new javax.swing.JPanel();
         usuarioLbl = new javax.swing.JLabel();
         usuarioTxt = new javax.swing.JTextField();
         reqContrasenaChbx = new javax.swing.JCheckBox();
@@ -121,14 +124,19 @@ public class Administrador extends javax.swing.JFrame {
         opcionesColasBtn = new javax.swing.JButton();
         verLogBtn = new javax.swing.JButton();
         loadProgress = new javax.swing.JProgressBar();
+        darkThemeRdb = new javax.swing.JRadioButton();
+        cassicThemeRdb = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("IBM MQ Message Manager");
         setLocation(new java.awt.Point(0, 0));
         setLocationByPlatform(true);
 
+        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 0, true));
         jPanel2.setAutoscrolls(true);
 
+        jSplitPane1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         jSplitPane1.setDividerLocation(400);
         jSplitPane1.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
         jSplitPane1.setToolTipText("");
@@ -146,6 +154,7 @@ public class Administrador extends javax.swing.JFrame {
         mensajeTxa.setColumns(20);
         mensajeTxa.setRows(5);
         mensajeTxa.setAlignmentX(0.0F);
+        mensajeTxa.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         jScrollPane1.setViewportView(mensajeTxa);
         mensajeTxa.getAccessibleContext().setAccessibleParent(jPanel1);
 
@@ -162,12 +171,15 @@ public class Administrador extends javax.swing.JFrame {
 
         jSplitPane1.setTopComponent(jPanel1);
 
+        jPanel3.setBackground(themeColor);
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel3.setAutoscrolls(true);
 
+        jInternalFrame1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         jInternalFrame1.setAutoscrolls(true);
         jInternalFrame1.setVisible(true);
 
-        connConfJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de la conexión"));
+        connConfJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Configuración de la conexión", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), Color.DARK_GRAY)); // NOI18N
         connConfJPanel.setToolTipText("Configuración de la conexión");
 
         connConfJPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -258,9 +270,9 @@ public class Administrador extends javax.swing.JFrame {
                     .addGroup(connConfJPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(guardarBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(eliminarBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(limpiarBtn)))
                 .addContainerGap())
         );
@@ -396,7 +408,7 @@ public class Administrador extends javax.swing.JFrame {
             connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(connConfJPanelLayout.createSequentialGroup()
                 .addComponent(connConfJPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(connConfJPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(connConfJPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -407,7 +419,7 @@ public class Administrador extends javax.swing.JFrame {
                         .addComponent(statusLbl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(conectarBtn)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         connConfJPanelLayout.setVerticalGroup(
             connConfJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -539,7 +551,7 @@ public class Administrador extends javax.swing.JFrame {
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jInternalFrame1Layout.createSequentialGroup()
                 .addComponent(connConfJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jInternalFrame1Layout.createSequentialGroup()
                         .addComponent(limpiarMsjBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -557,7 +569,7 @@ public class Administrador extends javax.swing.JFrame {
                                 .addComponent(ponerMsgBtn))
                             .addComponent(secureConfJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(loadProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 60, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jInternalFrame1Layout.setVerticalGroup(
@@ -581,19 +593,48 @@ public class Administrador extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        darkThemeRdb.setText("Dark");
+        darkThemeRdb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                darkThemeRdbActionPerformed(evt);
+            }
+        });
+
+        cassicThemeRdb.setText("Classic");
+        cassicThemeRdb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cassicThemeRdbActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Tema");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jInternalFrame1))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jInternalFrame1)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(46, 46, 46)
+                        .addComponent(darkThemeRdb)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cassicThemeRdb)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jInternalFrame1))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(darkThemeRdb)
+                    .addComponent(cassicThemeRdb)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jSplitPane1.setBottomComponent(jPanel3);
@@ -756,9 +797,7 @@ public class Administrador extends javax.swing.JFrame {
             return;
         }
     }//GEN-LAST:event_ponerMsgBtnActionPerformed
-
-    
-    
+  
     private void conectarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conectarBtnActionPerformed
         
         Connection connection = new Connection();
@@ -883,17 +922,6 @@ public class Administrador extends javax.swing.JFrame {
         
         timer.start();
     }//GEN-LAST:event_conectarBtnActionPerformed
-
-    private void reqContrasenaChbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reqContrasenaChbxActionPerformed
-        if ( reqContrasenaChbx.isSelected() )
-        {
-            contrasenaTxt.setEnabled( false );
-        }
-        else
-        {
-            contrasenaTxt.setEnabled( true );
-        }
-    }//GEN-LAST:event_reqContrasenaChbxActionPerformed
 
     private void cargaMasivaChbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargaMasivaChbxActionPerformed
         if ( cargaMasivaChbx.isSelected() )
@@ -1048,10 +1076,6 @@ public class Administrador extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_puertoTxtActionPerformed
 
-    private void rutaKeyStoreTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rutaKeyStoreTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rutaKeyStoreTxtActionPerformed
-
     private void connectiosCbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectiosCbxActionPerformed
 
     }//GEN-LAST:event_connectiosCbxActionPerformed
@@ -1173,6 +1197,41 @@ public class Administrador extends javax.swing.JFrame {
         mensajeTxa.setText( "" );
     }//GEN-LAST:event_limpiarMsjBtnActionPerformed
 
+    private void darkThemeRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darkThemeRdbActionPerformed
+        if( darkThemeRdb.isSelected() )
+        {
+            cassicThemeRdb.setSelected(false);
+        }
+        themeColor = Color.DARK_GRAY;
+        textColor = Color.LIGHT_GRAY;
+        changeTheme(themeColor, textColor);
+    }//GEN-LAST:event_darkThemeRdbActionPerformed
+
+    private void cassicThemeRdbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cassicThemeRdbActionPerformed
+        if( cassicThemeRdb.isSelected() )
+        {
+            darkThemeRdb.setSelected(false);
+        }
+        themeColor = Color.LIGHT_GRAY;
+        textColor = Color.DARK_GRAY;
+        changeTheme(themeColor, textColor);
+    }//GEN-LAST:event_cassicThemeRdbActionPerformed
+
+    private void rutaKeyStoreTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rutaKeyStoreTxtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rutaKeyStoreTxtActionPerformed
+
+    private void reqContrasenaChbxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reqContrasenaChbxActionPerformed
+        if ( reqContrasenaChbx.isSelected() )
+        {
+            contrasenaTxt.setEnabled( false );
+        }
+        else
+        {
+            contrasenaTxt.setEnabled( true );
+        }
+    }//GEN-LAST:event_reqContrasenaChbxActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1215,6 +1274,7 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTextField canalTxt;
     private javax.swing.JCheckBox cargaMasivaChbx;
     private javax.swing.JTextField cargaMasivaTxt;
+    private javax.swing.JRadioButton cassicThemeRdb;
     private javax.swing.JComboBox<String> cipherCbx;
     private javax.swing.JLabel cipherLbl;
     private javax.swing.JLabel colaMqLbl;
@@ -1229,6 +1289,7 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JComboBox<Connection> connectiosCbx;
     private javax.swing.JLabel contrasenaLbl;
     private javax.swing.JPasswordField contrasenaTxt;
+    private javax.swing.JRadioButton darkThemeRdb;
     private javax.swing.JButton editarBtn;
     private javax.swing.JButton eliminarBtn;
     private javax.swing.JLabel estadoLbl;
@@ -1236,6 +1297,7 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JTextField gestorTxt;
     private javax.swing.JButton guardarBtn;
     private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1254,6 +1316,7 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JCheckBox reqContrasenaChbx;
     private javax.swing.JLabel rutaKeyStoreLbl;
     private javax.swing.JTextField rutaKeyStoreTxt;
+    private javax.swing.JPanel secureConfJPanel;
     private javax.swing.JLabel servidorLbl;
     private javax.swing.JTextField servidorTxt;
     private javax.swing.JLabel statusLbl;
@@ -1405,5 +1468,97 @@ public class Administrador extends javax.swing.JFrame {
         }
         
         return true;
+    }
+    
+    private void changeTheme(Color theme, Color text)
+    {
+        jPanel2.setBackground( theme );
+        jSplitPane1.setBackground( theme );
+        jPanel1.setBackground( theme );
+        jScrollPane1.setBackground( theme );
+        mensajeTxa.setBackground( theme );
+        jPanel3.setBackground( theme );
+        jInternalFrame1.setBackground( theme );
+        connConfJPanel.setBackground( theme );
+        connConfJPanel1.setBackground( theme );
+        connConfJPanel2.setBackground( theme );
+        connConfJPanel3.setBackground( theme );
+        
+        servidorLbl.setForeground( text );
+        puertoLbl.setForeground( text );
+        canalLbl.setForeground( text );
+        connTypeLbl.setForeground( text );
+        gestorLbl.setForeground( text );
+        nombreConexionLbl.setForeground( text );
+        cipherLbl.setBackground( text );
+        rutaKeyStoreTxt.setBackground( theme );
+        rutaKeyStoreLbl.setBackground( text );        
+        contrasenaLbl.setBackground( text );
+        jLabel1.setBackground( text );        
+        guardarBtn.setBackground( theme );
+        eliminarBtn.setBackground( theme );
+        limpiarBtn.setBackground( theme );
+        
+        
+        
+        
+        
+        colaMqLbl.setBackground( theme );
+        colaMqTxt.setBackground( theme );
+        
+                
+        
+        usePreConfigChbx.setBackground( theme );
+        editarBtn.setBackground( theme );
+        estadoLbl.setBackground( theme );
+        statusLbl.setBackground( theme );
+        conectarBtn.setBackground( theme );
+        secureConfJPanel.setBackground( theme );
+        
+        reqContrasenaChbx.setBackground( theme );        
+        
+        ponerMsgBtn.setBackground( theme );
+        
+        cargaMasivaChbx.setBackground( theme );
+        limpiarMsjBtn.setBackground( theme );
+        opcionesColasBtn.setBackground( theme );
+        verLogBtn.setBackground( theme );
+        loadProgress.setBackground( theme );
+        darkThemeRdb.setBackground( theme );
+        cassicThemeRdb.setBackground( theme );
+        
+        nombreConexionTxt.setBackground( theme );
+        gestorTxt.setBackground( theme );
+        servidorTxt.setBackground( theme );
+        puertoTxt.setBackground( theme );
+        canalTxt.setBackground( theme );
+        connTypeCbx.setBackground( theme );
+        connectiosCbx.setBackground( theme );
+        cipherCbx.setBackground( theme );
+        cargaMasivaTxt.setBackground( theme );
+        usuarioTxt.setBackground( theme );
+        contrasenaTxt.setBackground( theme );
+        
+        jLabel1.setForeground(text);
+        darkThemeRdb.setForeground(text);
+        cassicThemeRdb.setForeground(text);
+        connConfJPanel.setForeground(text);
+//        connConfJPanel.
+        nombreConexionLbl.setForeground(text);
+        gestorLbl.setForeground(text);
+        servidorLbl.setForeground(text);
+        puertoLbl.setForeground(text);
+        canalLbl.setForeground(text);
+        connTypeLbl.setForeground(text);
+        colaMqLbl.setForeground(text);
+        usePreConfigChbx.setForeground(text);
+        estadoLbl.setForeground(text);
+        cargaMasivaChbx.setForeground(text);
+        secureConfJPanel.setForeground(text);
+        usuarioLbl.setForeground(text);
+        contrasenaLbl.setForeground(text);
+        reqContrasenaChbx.setForeground(text);
+        cipherLbl.setForeground(text);
+        rutaKeyStoreLbl.setForeground(text);
     }
 }
